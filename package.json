@@ -1,0 +1,22 @@
+{
+  "name": "friends",
+  "description": "YunYouJun's friends",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "build": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/friends.git"
+  },
+  "author": "YunYouJun <me@yunyoujun.cn>",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/YunYouJun/friends/issues"
+  },
+  "homepage": "https://www.yunyoujun.cn/links/",
+  "dependencies": {
+    "js-yaml": "^3.13.1"
+  }
+}
