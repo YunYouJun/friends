@@ -1,8 +1,10 @@
 # [云游君的小伙伴们](https://www.yunyoujun.cn/links/)
 
-[![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)](https://www.yunyoujun.cn/links/)
+[![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)](https://friends.yunyoujun.cn)
 
 ## 友链说明
+
+如果你想和咱交换友链，还请阅读一下内容。谢谢配合～
 
 ### 原则
 
