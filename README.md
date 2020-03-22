@@ -1,6 +1,6 @@
 # [云游君的小伙伴们](https://www.yunyoujun.cn/links/)
 
-![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)
+[![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)](https://www.yunyoujun.cn/links/)
 
 ## 友链说明
 
@@ -34,6 +34,8 @@
 - `desc`: 一句话描述，描述一下 `自己` 或者 `站点` 或者 `喜欢的话`？（最好不要太长，否则会被截断。）
 - `email`: 联系方式，请提供你可以公开的邮箱地址以方便联系。
 - `color`: 喜欢的颜色（没有填的话，默认是灰色 `gray` ！）
+
+如果你的文本存在特殊字符时，请使用双引号包裹。（譬如颜色须使用 `"#000000"`，而不是直接 `#000000`。）
 
 ### 如何交换友链
 
