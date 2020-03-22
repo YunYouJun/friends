@@ -19,7 +19,8 @@ jobs:
           node-version: ${{ matrix.node-version }}
       - run: npm install
       - run: npm run build --if-present
-      - run: cp -r ./public/* ./dist
+      - run: cp -r ./public/. ./dist
+      - run: cp README.md ./dist/
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
