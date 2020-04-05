@@ -159,3 +159,24 @@
   desc: 菜鸡 GIUEM 的日常
   color: "#0366d6"
   email: giuemcom@gmail.com
+- url: https://guhub.cn
+  avatar: https://cdn.jsdelivr.net/gh/BigCoke233/image-hosting/avatars/avatar.jpeg
+  name: Eltrac
+  blog: Eltrac's Track
+  desc: 暗夜行路，终遇奇迹。
+  email: hi@guhub.cn
+  color: "#6688DD"
+- url: https://www.addesp.com/
+  avatar: https://www.addesp.com/avatar.jpg
+  name: ADD-SP
+  blog: ADD-SP's blog
+  desc: Hello World!
+  email: add_sp@outlook.com
+  color: "#007bbb"
+- url: https://713.moe/
+  avatar: https://gravatar.loli.net/avatar/ad5babe8213864d97007267d9e130291?s=320
+  name: 小太
+  blog: 小太の游乐园
+  desc: 一个热爱ACG的技术宅
+  email: i@713.moe
+  color: "#e74c3c"
