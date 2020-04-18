@@ -194,3 +194,11 @@
   desc: 一个在不断探索、思考和分享的博客.
   email: i@beyondstars.xyz
   color: "#8cafb6"
+- url: https://www.blog.cddwp.top
+  avatar: http://image.cddwp.top/20200417161508.png
+  name: 流浪汉
+  blog: 流浪汉的车亭
+  desc: 活得开心就行
+  # Or: All at sea.
+  email: 867007845@qq.com
+  color: "#0366d6"
