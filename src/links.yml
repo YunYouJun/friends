@@ -222,3 +222,10 @@
   desc: Mayx's Home Page
   email: mayx@outlook.com
   color: "#66ccff"
+- url: https://blog.k8s.li
+  avatar: https://blog.k8s.li/avatar.png
+  name: 木子
+  blog: 木子的博客
+  desc: 垃圾佬、搬砖社畜、运维工程师
+  email: blog@502.li
+  color: "#00c4b6"
