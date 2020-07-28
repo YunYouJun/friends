@@ -92,12 +92,6 @@
   desc: 念念不忘，必有回响
   color: "#66ccff"
   email: given@2890.ltd
-- url: https://ddindex.github.io/
-  avatar: https://ddindex.github.io/images/avatar.jpg
-  name: 多多酱
-  blog: 多酱的部落格
-  desc: 双手抓楼上的大胸
-  color: "#8e71c1"
 - url: https://www.mokeyjay.com
   avatar: https://www.mokeyjay.com/headimg.png
   name: mokeyjay
@@ -229,3 +223,10 @@
   desc: For a better life.
   email: 776194970@qq.com
   color: "#ff4e6a"
+- url: https://liyin.date/
+  avatar: https://liyin.date/myfiles/images/logo.png
+  name: 立音喵
+  blog: 天空·边界
+  desc: 用心探知天空的边界
+  email: wmliyin@outlook.com
+  color: "#394c5a"
