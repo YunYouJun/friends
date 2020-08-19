@@ -4,7 +4,7 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "node src/index.js"
+    "build": "node src/index.js && cp -r ./public/. ./dist && cp README.md ./dist/"
   },
   "repository": {
     "type": "git",
