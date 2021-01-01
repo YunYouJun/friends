@@ -58,14 +58,14 @@
   desc: 永远相信美好的事情即将发生~
   color: hotpink
 - url: https://asuhe.jp/
-  avatar: https://asuhe.jp/wp-content/uploads/2020/02/QQ图片20200128131100.jpg
+  avatar: https://asuhe.jp/wp-content/uploads/2020/12/avatar.jpg
   name: 染川瞳
   blog: 約束の明日へ
   desc: また君を思い出すよ
   email: me@okaeri.org
   color: "#EE9CA7"
 - url: https://hehejun.cn/
-  avatar: https://hehejun.cn/wp-content/uploads/2020/02/QQ%E5%9B%BE%E7%89%8720200224115223.jpg
+  avatar: https://blog.hehejun.cn/img.jpg
   name: 呵呵君
   blog: Hehejun's Blog
   desc: 世界に忘れられた
@@ -188,13 +188,6 @@
   desc: 在无聊的日常中寻找意义
   email: mail@bysb.net
   color: "#2d5cff"
-- url: https://ioliu.cn
-  avatar: https://ioliu.cn/images/avatar.jpg
-  name: 云淡风轻
-  blog: 云淡风轻
-  desc: 一个安静的角落
-  email: yy.liu@foxmail.com
-  color: gray
 - url: https://andychen.tk/
   avatar: https://andychen.tk/images/avatar.jpg
   name: Andy Chen
@@ -239,7 +232,7 @@
   color: "#54cedc"
 - url: https://www.kawashiros.club/
   avatar: https://i.loli.net/2020/08/14/iV2Ex7yQdXfro8U.jpg
-  name: 非科学のカッパ 
+  name: 非科学のカッパ
   blog: 冻符「Minus-K」
   desc: 非科学のカッパ 的博客
   email: unscientific_kappa@outlook.com
@@ -259,7 +252,7 @@
   email: me@jokerm.com
   color: "#F6121C"
 - url: https://timegg.top
-  avatar: https://chuanbohua.github.io/avatar.jpg
+  avatar: https://cbhua.github.io/avatar.jpg
   name: Kurakun
   blog: Timegg
   desc: 把手上的东西放进时光蛋。
