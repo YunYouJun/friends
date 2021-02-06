@@ -4,7 +4,8 @@
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
-    "build": "node src/index.js && cp -r ./public/. ./dist && cp README.md ./dist/"
+    "build": "node src/index.js && cp -r ./public/. ./dist && cp README.md ./dist/",
+    "update": "git add -A && git commit -m '👥 update friends' && git push"
   },
   "repository": {
     "type": "git",
@@ -17,6 +18,6 @@
   },
   "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
-    "js-yaml": "^3.13.1"
+    "js-yaml": "^4.0.0"
   }
 }

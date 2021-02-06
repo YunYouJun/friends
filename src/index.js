@@ -2,7 +2,7 @@ const yaml = require("js-yaml");
 const { readFileSync, mkdirSync, writeFileSync } = require("fs");
 
 try {
-  const links = yaml.safeLoad(readFileSync("./src/links.yml", "utf8"));
+  const links = yaml.load(readFileSync("./src/links.yml", "utf8"));
   try {
     mkdirSync("./dist/");
   } catch ({ code }) {
