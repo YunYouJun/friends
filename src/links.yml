@@ -272,3 +272,11 @@
   desc: 快走吧，趁风停止之前
   email: sanshiliuxiao@foxmail.com
   color: "#4f5b97"
+ - url: https://ymengo.gitee.io/
+  avatar: https://cdn.jsdelivr.net/gh/Ymengo/Ymengo.github.io@master/css/images/Gravater.jpg
+  name: Ymengo
+  blog: Ymengo
+  desc: All at sea.
+  email: ymengo0121@qq.com
+  color: "#0054db"
+  
