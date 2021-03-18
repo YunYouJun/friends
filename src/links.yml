@@ -32,7 +32,7 @@
   color: "#4186C2"
 - url: https://blog.sernikki.cn/
   avatar: https://cdn.jsdelivr.net/gh/sernikki/MyMp3/img/amiya.jpg
-  name: NIKKI 
+  name: NIKKI
   blog: 蕾咪の小窝
   desc: 有瑕人无玉
   email: badremilia@foxmail.com
@@ -279,3 +279,11 @@
   desc: 散落在世界一角的故事
   email: uki.tian@outlook.com
   color: "#48d1cc"
+- url: https://www.fffdann.com/
+  avatar: https://upyun.yunyoujun.cn/images/fffdann-avatar.jpg
+  category: forum
+  name: manami
+  blog: FFF 团
+  desc: 一个完全基于兴趣驱动的多元社区
+  email: hi@fffdann.com
+  color: "#BF928F"
