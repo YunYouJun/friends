@@ -3,8 +3,10 @@
   "description": "YunYouJun's friends",
   "version": "1.0.0",
   "main": "index.js",
+  "bin": "bin/index.js",
   "scripts": {
     "build": "node src/index.js && cp -r ./public/. ./dist && cp README.md ./dist/",
+    "friends": "friends add",
     "update": "git add -A && git commit -m '👥 update friends' && git push"
   },
   "repository": {
@@ -18,6 +20,9 @@
   },
   "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
+    "chalk-pipe": "4",
+    "commander": "^7.1.0",
+    "inquirer": "^8.0.0",
     "js-yaml": "^4.0.0"
   }
 }

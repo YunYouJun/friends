@@ -1,6 +1,7 @@
 # [云游君的小伙伴们](https://www.yunyoujun.cn/links/)
 
 [![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)](https://friends.yunyoujun.cn)
+[![links.json](https://img.shields.io/badge/links.json-yellow)](https://friends.yunyoujun.cn/links.json)
 
 ## 友链说明
 
@@ -60,3 +61,9 @@
 - 按照以上格式在 `src/links.yml` 文件末尾新增你的信息（最末尾留一个空行）
 - 完成后，新建 `Pull Request`
 - 当 `Pull Request` 被合并后，请尽快于您的站点添加本站友链，您的站点将在 10 分钟内显示在[云游君的小伙伴](https://www.yunyoujun.cn/links/)里。
+
+## Cli
+
+```bash
+yarn friends
+```
