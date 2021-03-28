@@ -64,13 +64,6 @@
   desc: また君を思い出すよ
   email: me@okaeri.org
   color: "#EE9CA7"
-- url: https://gugumoe.cc/
-  avatar: https://blog.hehejun.cn/img.jpg
-  name: 咕谷酱
-  blog: 咕谷酱的博客
-  desc: 世界に忘れられた
-  email: cnemcx@163.com
-  color: "#90c9f5"
 - url: https://flag.moe/
   avatar: https://flag.moe/avatar.bab2b7d4.jpg
   name: 哞菇
@@ -86,7 +79,7 @@
   email: github@skk.moe
   color: "#C08B57"
 - url: https://2890.ltd
-  avatar: https://cdn233.2890.ltd/20200111/1/5e18a37b39308CLSUFFlogosmallest.png
+  avatar: https://upyun.yunyoujun.cn/images/okyes-avatar.jpg
   name: Given / 秋庭 飒
   blog: OkYes! 技术博客
   desc: 念念不忘，必有回响
@@ -106,7 +99,7 @@
   email: hi-blog@chralpha.com
   color: "#FFB90F"
 - url: https://www.angelic47.com/
-  avatar: https://secure.gravatar.com/avatar/af12f24d493e12b714cb70f3c7b3662e?s=500&r=X&d=
+  avatar: https://upyun.yunyoujun.cn/images/angelic47-avatar.jpg
   name: Angelic47
   blog: Angelic47's Home
   desc: 弱小，无助，又可怜！～
@@ -119,7 +112,7 @@
   color: "#39c5bb"
   email: imiku.me@gmail.com
 - url: https://diygod.me/
-  avatar: https://cdn.jsdelivr.net/gh/DIYgod/diygod.me@gh-pages/images/DIYgod.jpg
+  avatar: https://cdn.jsdelivr.net/gh/DIYgod/hexo-theme-sagiri/source/images/DIYgod-avatar2.webp
   name: DIYgod
   blog: Hi, DIYgod
   desc: 写代码是热爱，写到世界充满爱！
@@ -238,7 +231,7 @@
   email: unscientific_kappa@outlook.com
   color: aqua
 - url: https://sknplz.xyz
-  avatar: https://cdn.jsdelivr.net/gh/Sknp1006/cdn@master/img/albums/arknights_Skadi/024.png
+  avatar: https://upyun.yunyoujun.cn/images/sknp-avatar.jpg
   name: SKNP
   blog: SKNP的小站
   desc: raise&nirvana
