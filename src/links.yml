@@ -287,10 +287,10 @@
   desc: FGHRSH 的博客
   email: fghrsh@wxw.moe
   color: "#38a3db"
-- url: https://cyris.moe/
-  avatar: https://cdn.jsdelivr.net/npm/cyris/images/avatar.png
-  name: Cyris
-  blog: Cyris
-  desc: 带着美丽的心成长！
-  email: i@cyris.moe
-  color: "#ca8a8b"
+- url: https://www.littlefisher.cn/
+  avatar: https://littlefisher.oss-cn-beijing.aliyuncs.com/images/myhead.png
+  name: Littlefisher
+  blog: Littlefisher's blog
+  desc: 千里之行，始于腿长:D
+  email: 3225155810@qq.com
+  color: "#000080"
