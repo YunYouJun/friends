@@ -59,7 +59,7 @@ function main() {
     delete link.email;
   });
 
-  if (fs.existsSync(distFolder)) {
+  if (!fs.existsSync(distFolder)) {
     fs.mkdirSync(distFolder, { recursive: true });
   }
   fs.writeFileSync(`${distFolder}/links.json`, JSON.stringify(links));
