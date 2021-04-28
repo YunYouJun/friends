@@ -4,7 +4,9 @@
   "version": "1.0.0",
   "bin": "bin/index.js",
   "scripts": {
-    "build": "ts-node src/index.ts && cp -r ./public/. ./dist && cp README.md ./dist/",
+    "build": "yarn generate && yarn copy",
+    "generate": "ts-node src/index.ts",
+    "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "friends add",
     "update": "git add -A && git commit -m '👥 update friends' && git push"
   },
