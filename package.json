@@ -2,10 +2,9 @@
   "name": "friends",
   "description": "YunYouJun's friends",
   "version": "1.0.0",
-  "main": "index.js",
   "bin": "bin/index.js",
   "scripts": {
-    "build": "node src/index.js && cp -r ./public/. ./dist && cp README.md ./dist/",
+    "build": "ts-node src/index.ts && cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "friends add",
     "update": "git add -A && git commit -m '👥 update friends' && git push"
   },
@@ -24,5 +23,12 @@
     "commander": "^7.2.0",
     "inquirer": "^8.0.0",
     "js-yaml": "^4.1.0"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.1",
+    "@types/node": "^15.0.1",
+    "@yunyoujun/logger": "^0.1.2",
+    "ts-node": "^9.1.1",
+    "typescript": "^4.2.4"
   }
 }
