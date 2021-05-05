@@ -1,6 +1,8 @@
+package-lock.json
+yarn.lock
+
 .DS_Store
 node_modules/
 dist/
 *.log
-package-lock.json
-yarn.lock
+lib/

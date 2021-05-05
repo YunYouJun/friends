@@ -10,12 +10,7 @@
   blog: Hi, I Am I
   desc: Hello,world. l'm coming.
   color: "#90A6BC"
-- url: http://www.iimt.me/
-  avatar: https://i.loli.net/2020/03/15/uhU3SZ8RtjE6DOL.jpg
-  name: iimT
-  blog: iimT 的独立博客
-  desc: 一个喜欢电音的技术宅。
-  color: "#473F67"
+  email: me@5ime.cn
 - url: https://www.antmoe.com/
   avatar: https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/avatar.jpg
   name: 小康

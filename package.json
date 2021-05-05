@@ -2,20 +2,31 @@
   "name": "friends",
   "description": "YunYouJun's friends",
   "version": "1.0.0",
-  "bin": "bin/index.js",
+  "bin": "./bin/run",
+  "files": [
+    "/bin",
+    "/lib"
+  ],
   "scripts": {
-    "build": "yarn generate && yarn copy",
-    "generate": "ts-node src/index.ts",
+    "build": "yarn build:json",
+    "build:lib": "yarn prepack",
+    "build:json": "yarn generate && yarn copy",
+    "generate": "ts-node src/generate.ts",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "friends add",
-    "update": "git add -A && git commit -m '👥 update friends' && git push"
+    "update": "git add -A && git commit -m '👥 update friends' && git push",
+    "prepack": "rm -rf lib && tsc -b"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/YunYouJun/friends.git"
   },
-  "author": "YunYouJun <me@yunyoujun.cn>",
-  "license": "ISC",
+  "author": {
+    "name": "YunYouJun",
+    "email": "me@yunyoujun.cn",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/YunYouJun/friends/issues"
   },
@@ -27,8 +38,10 @@
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
+    "@types/chalk-pipe": "^2.0.0",
+    "@types/inquirer": "^7.3.1",
     "@types/js-yaml": "^4.0.1",
-    "@types/node": "^15.0.1",
+    "@types/node": "^15.0.2",
     "@yunyoujun/logger": "^0.1.2",
     "ts-node": "^9.1.1",
     "typescript": "^4.2.4"

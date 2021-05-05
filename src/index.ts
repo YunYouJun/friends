@@ -1,73 +1,62 @@
+#!/usr/bin/env node
+import { program } from "commander";
 import * as yaml from "js-yaml";
 import * as fs from "fs";
-import { Logger } from "@yunyoujun/logger";
+import chalkPipe from "chalk-pipe";
+import inquirer from "inquirer";
+import config from "./config";
 
-const logger = new Logger();
+const pkg = require("../package.json");
+program.version(pkg.version);
 
-/**
- * 友链
- */
-export interface Friend {
-  /**
-   * 链接
-   */
-  url: string;
-  /**
-   * 头像
-   */
-  avatar: string;
-  /**
-   * 种类
-   */
-  category?: string;
-  /**
-   * 称呼
-   */
-  name: string;
-  /**
-   * 博客
-   */
-  blog: string;
-  /**
-   * 描述
-   */
-  desc: string;
-  /**
-   * 邮件
-   */
-  email: string;
-  /**
-   * 代表色
-   */
-  color: string;
-}
+const questions = [
+  {
+    type: "input",
+    name: "url",
+    message: "站点链接：",
+  },
+  {
+    type: "input",
+    name: "avatar",
+    message: "头像链接：",
+  },
+  {
+    type: "input",
+    name: "name",
+    message: "作者名称：",
+  },
+  {
+    type: "input",
+    name: "blog",
+    message: "站点名称：",
+  },
+  {
+    type: "input",
+    name: "desc",
+    message: "站点描述：",
+  },
+  {
+    type: "input",
+    name: "email",
+    message: "联系邮箱：",
+  },
+  {
+    type: "input",
+    name: "color",
+    message: "代表色彩：",
+    transformer(color: string) {
+      return chalkPipe(color)(color);
+    },
+  },
+];
 
-/**
- * 主函数
- * @returns
- */
-function main() {
-  const sourceFolder = "src";
-  const distFolder = "dist";
+program.command("add").action(async () => {
+  const answers = await inquirer.prompt(questions);
+  const item = yaml.dump([answers]);
+  console.log(item);
+  fs.appendFileSync(config.dataFile, item);
+});
 
-  const links = yaml.load(
-    fs.readFileSync(`${sourceFolder}/links.yml`, "utf8")
-  ) as Friend[];
-
-  links.forEach((link) => {
-    // hide email
-    delete link.email;
-  });
-
-  if (!fs.existsSync(distFolder)) {
-    fs.mkdirSync(distFolder, { recursive: true });
-  }
-  fs.writeFileSync(`${distFolder}/links.json`, JSON.stringify(links));
-  logger.success("Generated links.json successfully!");
-}
-
-try {
-  main();
-} catch (e) {
-  console.error(e);
+export async function run() {
+  program.parse(process.argv);
 }
