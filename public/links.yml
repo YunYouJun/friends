@@ -226,11 +226,11 @@
   email: unscientific_kappa@outlook.com
   color: aqua
 - url: https://sknplz.xyz
-  avatar: https://upyun.yunyoujun.cn/images/sknp-avatar.jpg
+  avatar: https://cdn.jsdelivr.net/gh/Sknp1006/cdn@master/img/albums/arknights_Skadi/024.png
   name: SKNP
   blog: SKNP的小站
-  desc: raise&nirvana
-  email: super.zhe@gmail.com
+  desc: 为斯卡蒂献上心脏！
+  email: superai.zhe@gmail.com
   color: "#FF6A6A"
 - url: https://jokerm.com
   avatar: https://cdn.jokerm.com/?/imgcdn/logo.png
@@ -317,3 +317,10 @@
   desc: 不忘初心，方得始终
   email: i@ffis.me
   color: "#03a9f4"
+- url: https://gaein.cn/
+  avatar: https://img.cdn.gaein.cn/website_used/avatars/avatar-128x.webp
+  name: Gaein nidb
+  blog: Gaein nidb 的小站
+  desc: 记录生活
+  email: mail@gaein.cn
+  color: "#519BFF"
