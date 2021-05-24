@@ -318,3 +318,11 @@
   desc: 记录生活
   email: mail@gaein.cn
   color: "#519BFF"
+- url: https://blog.becomingcelia.com
+  avatar: https://cdn.jsdelivr.net/gh/liangchuxin/blog-files/img/20210306130253.jpg
+  name: Celia
+  blog: Celia 的博客
+  desc: 读万卷书，行万里路
+  email: liangcx126@gmail.com
+  color: "#02A289"
+  
