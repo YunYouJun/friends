@@ -1,9 +1,3 @@
-- url: https://yumesama.cn
-  avatar: https://cdn.jsdelivr.net/gh/ZHANGYANG980313/cdn@1.5.1/img/custom/avatar.jpg
-  name: YumeSama
-  blog: ゆめ Yume
-  desc: 「技美大佬」
-  color: deepskyblue
 - url: https://5ime.cn/
   avatar: https://blog-1252493876.file.myqcloud.com/avatar.jpg
   name: I Am I
@@ -317,3 +311,17 @@
   desc: 愿为代码奉献出生命的最后一刻
   email: jadeface.scholar@gmail.com
   color: "6E6FA8"
+- url: https://ffis.me/
+  avatar: https://img.ffis.me/images/2019/12/21/1.6min.png
+  name: 饭饭's Blog
+  blog: 饭饭's Blog
+  desc: 不忘初心，方得始终
+  email: i@ffis.me
+  color: "#03a9f4"
+- url: https://gaein.cn/
+  avatar: https://img.cdn.gaein.cn/website_used/avatars/avatar-128x.webp
+  name: Gaein nidb
+  blog: Gaein nidb 的小站
+  desc: 记录生活
+  email: mail@gaein.cn
+  color: "#519BFF"
