@@ -318,6 +318,20 @@
   desc: 记录生活
   email: mail@gaein.cn
   color: "#519BFF"
+- url: https://www.bigdreamer.cc/
+  avatar: https://scholarself.oss-cn-beijing.aliyuncs.com/daily/avatar.jpeg
+  name: Scholar.Eric
+  blog: 书生的博客
+  desc: 愿为代码奉献出生命的最后一刻
+  email: jadeface.scholar@gmail.com
+  color: "6E6FA8"
+- url: https://leiblog.wang
+  avatar: http://leiblog.wang/static/image/2021/5/sjcZ09.jpg
+  name: LeiWang1999
+  blog: "LeiWang1999's Blog"
+  desc: 卷卷卷卷。
+  email: 2230647190@qq.com
+  color: "#9400D3"
 - url: https://blog.becomingcelia.com
   avatar: https://cdn.jsdelivr.net/gh/liangchuxin/blog-files/img/20210306130253.jpg
   name: Celia
@@ -325,4 +339,3 @@
   desc: 读万卷书，行万里路
   email: liangcx126@gmail.com
   color: "#02A289"
-  
