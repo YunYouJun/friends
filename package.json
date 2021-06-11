@@ -32,18 +32,18 @@
   },
   "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
-    "chalk-pipe": "4",
+    "chalk-pipe": "^4.0.0",
     "commander": "^7.2.0",
-    "inquirer": "^8.0.0",
+    "inquirer": "^8.1.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/chalk-pipe": "^2.0.0",
     "@types/inquirer": "^7.3.1",
     "@types/js-yaml": "^4.0.1",
-    "@types/node": "^15.0.2",
+    "@types/node": "^15.12.2",
     "@yunyoujun/logger": "^0.1.2",
     "ts-node": "^9.1.1",
-    "typescript": "^4.2.4"
+    "typescript": "^4.3.2"
   }
 }

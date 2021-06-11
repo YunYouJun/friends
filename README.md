@@ -3,6 +3,8 @@
 [![YunYouJun Friends](https://github.com/YunYouJun/friends/workflows/YunYouJun%20Friends/badge.svg)](https://friends.yunyoujun.cn)
 [![links.json](https://img.shields.io/badge/links.json-yellow)](https://friends.yunyoujun.cn/links.json)
 
+> 因为现在友链真的已经很多了，所以暂时不再接受新的友链了！（除非你有自信你的内容真的很有趣，哈哈哈哈哈！）
+
 ## 友链说明
 
 如果您想和咱交换友链，还请阅读一下内容。谢谢配合～
@@ -18,6 +20,7 @@
 - 原则上最好为使用 HTTPS 协议站点，且拥有自己的独立域名。
 - 会使用 Git 与 GitHub。
 - 已添加友链不会轻易删除。如您已移除本站链接，本站也将移除友链。
+- 站点长时间无法访问，或半年以上没有任何更新，我将视情况撤下友链。
 - 最终解释权归咱自己所有。
 
 #### 内容原则
@@ -67,3 +70,9 @@
 ```bash
 yarn friends
 ```
+
+## Todo
+
+- [ ] 友链状态检测
+  - [ ] cli
+  - [ ] status page
