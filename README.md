@@ -68,7 +68,8 @@
 ## Cli
 
 ```bash
-yarn friends
+# npm run friends
+pnpm friends
 ```
 
 ## Todo

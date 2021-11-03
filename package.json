@@ -8,9 +8,9 @@
     "/lib"
   ],
   "scripts": {
-    "build": "yarn build:json",
-    "build:lib": "yarn prepack",
-    "build:json": "yarn generate && yarn copy",
+    "build": "npm run build:json",
+    "build:lib": "npm run prepack",
+    "build:json": "npm run generate && npm run copy",
     "generate": "ts-node src/generate.ts",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "friends add",
@@ -32,18 +32,18 @@
   },
   "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
-    "chalk-pipe": "^4.0.0",
-    "commander": "^7.2.0",
-    "inquirer": "^8.1.0",
+    "chalk-pipe": "^5.1.1",
+    "commander": "^8.3.0",
+    "inquirer": "^8.2.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
     "@types/chalk-pipe": "^2.0.0",
-    "@types/inquirer": "^7.3.1",
-    "@types/js-yaml": "^4.0.1",
-    "@types/node": "^15.12.2",
-    "@yunyoujun/logger": "^0.1.2",
-    "ts-node": "^9.1.1",
-    "typescript": "^4.3.2"
+    "@types/inquirer": "^8.1.3",
+    "@types/js-yaml": "^4.0.4",
+    "@types/node": "^16.11.6",
+    "@yunyoujun/logger": "^0.1.4",
+    "ts-node": "^10.4.0",
+    "typescript": "^4.4.4"
   }
 }
