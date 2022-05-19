@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 import { program } from "commander";
-import * as yaml from "js-yaml";
-import * as fs from "fs";
+import yaml from "js-yaml";
+import fs from "fs";
 import chalkPipe from "chalk-pipe";
 import inquirer from "inquirer";
 import config from "./config";

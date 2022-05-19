@@ -39,7 +39,7 @@
 
 ```yml
 - url: https://www.yunyoujun.cn
-  avatar: https://cdn.jsdelivr.net/gh/YunYouJun/yunyoujun.github.io/images/avatar.jpg
+  avatar: https://www.yunyoujun.cn/images/avatar.jpg
   name: 云游君
   blog: 云游君的小站
   desc: 希望能成为一个有趣的人。

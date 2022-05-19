@@ -1,5 +1,5 @@
-import * as yaml from "js-yaml";
-import * as fs from "fs";
+import fs from "fs";
+import yaml from "js-yaml";
 import { Logger } from "@yunyoujun/logger";
 import config from "./config";
 
