@@ -360,3 +360,9 @@
   desc: 由一条咸鱼搭建的博客
   email: nriot233@outlook.com
   color: "#46c48b"
+- url: https://blog.sxzz.moe/
+  avatar: https://fastly.jsdelivr.net/gh/sxzz/static@latest/avatar.png
+  name: 三咲智子
+  desc: 三咲智子
+  email: hi@sxzz.moe
+  color: "#0078E7"
