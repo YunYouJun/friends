@@ -11,7 +11,7 @@
     "build": "npm run build:json",
     "build:lib": "npm run prepack",
     "build:json": "npm run generate && npm run copy",
-    "generate": "esno src/generate.ts",
+    "generate": "tsx src/generate.ts",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "friends add",
     "update": "git add -A && git commit -m '👥 update friends' && git push",
@@ -32,20 +32,20 @@
   },
   "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
-    "chalk-pipe": "^5.1.1",
-    "commander": "^9.2.0",
-    "inquirer": "^8.2.4",
+    "chalk-pipe": "^6.0.0",
+    "commander": "^10.0.0",
+    "inquirer": "^9.1.4",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@types/chalk-pipe": "^2.0.0",
-    "@types/inquirer": "^8.2.1",
+    "@types/chalk-pipe": "^2.0.1",
+    "@types/inquirer": "^9.0.3",
     "@types/js-yaml": "^4.0.5",
-    "@types/node": "^17.0.35",
+    "@types/node": "^18.11.18",
     "@yunyoujun/logger": "^0.2.3",
-    "esbuild": "^0.14.39",
-    "esbuild-register": "^3.3.2",
-    "esno": "0.14",
-    "typescript": "^4.6.4"
+    "esbuild": "^0.17.5",
+    "esbuild-register": "^3.4.2",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4"
   }
 }
