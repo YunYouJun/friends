@@ -29,7 +29,8 @@
     "lint": "eslint .",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "friends": "tsx scripts/index.ts add",
-    "update": "git add -A && git commit -m '👥 update friends' && git push"
+    "update": "git add -A && git commit -m '👥 update friends' && git push",
+    "typecheck": "tsc --noEmit"
   },
   "dependencies": {
     "chalk-pipe": "^6.0.0",
