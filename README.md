@@ -45,7 +45,7 @@
   desc: 希望能成为一个有趣的人。
   # Or: All at sea.
   email: me@yunyoujun.cn
-  color: "#0078e7"
+  color: '#0078e7'
 ```
 
 - `url`: 博客链接

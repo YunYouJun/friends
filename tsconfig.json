@@ -1,13 +1,14 @@
 {
   "compilerOptions": {
-    "declaration": true,
-    "importHelpers": true,
-    "module": "CommonJS",
-    "outDir": "lib",
+    "target": "es2018",
+    "module": "esnext",
+    "lib": ["esnext"],
+    "moduleResolution": "node",
+    "esModuleInterop": true,
     "strict": true,
-    "target": "es2017",
+    "strictNullChecks": true,
     "resolveJsonModule": true,
-    "esModuleInterop": true
-  },
-  "include": ["src/**/*"]
+    "skipLibCheck": true,
+    "skipDefaultLibCheck": true
+  }
 }
