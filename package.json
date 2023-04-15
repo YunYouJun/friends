@@ -34,18 +34,18 @@
   },
   "dependencies": {
     "chalk-pipe": "^6.0.0",
-    "commander": "^10.0.0",
+    "commander": "^10.0.1",
     "inquirer": "^9.1.4",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.2",
+    "@antfu/eslint-config": "^0.38.4",
     "@types/chalk-pipe": "^2.0.1",
     "@types/inquirer": "^9.0.3",
     "@types/js-yaml": "^4.0.5",
     "@types/node": "^18.11.18",
-    "consola": "^2.15.3",
-    "eslint": "^8.37.0",
+    "consola": "^3.0.2",
+    "eslint": "^8.38.0",
     "tsx": "^3.12.2",
     "typescript": "^4.9.4"
   }
