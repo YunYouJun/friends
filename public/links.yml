@@ -6,7 +6,7 @@
   color: "#90A6BC"
   email: me@5ime.cn
 - url: https://www.antmoe.com/
-  avatar: https://cdn.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/avatar.jpg
+  avatar: https://fastly.jsdelivr.net/gh/sviptzk/HexoStaticFile@latest/avatar.jpg
   name: 小康
   blog: 小康博客
   desc: 一个收藏回忆与分享技术的地方！
@@ -20,34 +20,34 @@
   email: oyohyee@oyohyee.com
   color: "#4186C2"
 - url: https://blog.sernikki.cn/
-  avatar: https://cdn.jsdelivr.net/gh/sernikki/MyMp3/img/amiya.jpg
+  avatar: https://fastly.jsdelivr.net/gh/sernikki/MyMp3/img/amiya.jpg
   name: NIKKI
   blog: 蕾咪の小窝
   desc: 有瑕人无玉
   email: badremilia@foxmail.com
   color: "#00F5FF"
 - url: https://blog.badapple.pro
-  avatar: https://cdn.jsdelivr.net/gh/OrientalFantasy/file/logo/yuanjiao.png
+  avatar: https://fastly.jsdelivr.net/gh/OrientalFantasy/file/logo/yuanjiao.png
   name: 东方幻梦
   blog: 东方幻梦
   desc: 只是当时已惘然
   email: i@flandrescarlet.cn
   color: "#66CCFF"
 - url: https://chanshiyu.com
-  avatar: https://cdn.jsdelivr.net/gh/chanshiyucx/yoi/blog/avatar.jpg
+  avatar: https://fastly.jsdelivr.net/gh/chanshiyucx/yoi/blog/avatar.jpg
   name: 蝉时雨
   blog: 蝉时雨
   desc: 蝉鸣如雨，花宵道中
   email: me@chanshiyu.com
   color: "#b854d4"
 - url: https://owomoe.net
-  avatar: https://cdn.jsdelivr.net/gh/AyagawaSeirin/Assets/img/logo.jpg
+  avatar: https://fastly.jsdelivr.net/gh/AyagawaSeirin/Assets/img/logo.jpg
   name: 綾川星凛
   blog: 皮皮凛の小窝
   desc: 永远相信美好的事情即将发生~
   color: hotpink
-- url: https://asuhe.jp/
-  avatar: https://asuhe.jp/wp-content/uploads/2021/01/avatar.webp
+- url: https://kiseki.blog
+  avatar: https://kiseki.blog/wp-content/uploads/2022/11/avatar.jpg
   name: 染川瞳
   blog: 約束の明日へ
   desc: また君を思い出すよ
@@ -61,7 +61,7 @@
   email: i@flag.moe
   color: "#013CB2"
 - url: https://blog.skk.moe/
-  avatar: https://cdn.jsdelivr.net/npm/skx@0.0.1/avatar/128x128.png
+  avatar: https://fastly.jsdelivr.net/npm/skx@0.0.1/avatar/128x128.png
   name: Sukka
   blog: 苏卡卡的有底洞
   desc: 童话只美在真实却从不续写
@@ -81,7 +81,7 @@
   desc: Web全沾 // 专业学渣 // 贰刺猿 // 永远还不完信用卡
   color: purple
 - url: https://chralpha.com
-  avatar: https://cdn.jsdelivr.net/npm/chrdnx@1.0.10/img/head-found.png
+  avatar: https://fastly.jsdelivr.net/npm/chrdnx@1.0.10/img/head-found.png
   name: ChrAlpha
   blog: ChrAlpha 的幻想乡
   desc: 愿明天又是更好的一天
@@ -101,21 +101,21 @@
   color: "#39c5bb"
   email: imiku.me@gmail.com
 - url: https://diygod.me/
-  avatar: https://cdn.jsdelivr.net/gh/DIYgod/hexo-theme-sagiri/source/images/DIYgod-avatar2.webp
+  avatar: https://fastly.jsdelivr.net/gh/DIYgod/hexo-theme-sagiri/source/images/DIYgod-avatar2.webp
   name: DIYgod
   blog: Hi, DIYgod
   desc: 写代码是热爱，写到世界充满爱！
   color: "#f29c38"
   email: i@diygod.me
 - url: https://www.giuem.com
-  avatar: https://cdn.jsdelivr.net/gh/giuem/assets@20190501/avatar/giuem.png
+  avatar: https://fastly.jsdelivr.net/gh/giuem/assets@20190501/avatar/giuem.png
   name: GIUEM
   blog: BLOG @ GIUEM
   desc: 菜鸡 GIUEM 的日常
   color: "#0366d6"
   email: giuemcom@gmail.com
 - url: https://guhub.cn
-  avatar: https://cdn.jsdelivr.net/gh/BigCoke233/image-hosting/avatars/avatar.jpg
+  avatar: https://fastly.jsdelivr.net/gh/BigCoke233/image-hosting/avatars/avatar.jpg
   name: Eltrac
   blog: Eltrac's Track
   desc: 暗夜行路，终遇奇迹。
@@ -128,12 +128,12 @@
   desc: 寂静中交织着热情
   email: add_sp@outlook.com
   color: "#007bbb"
-- url: https://713.moe/
+- url: https://baka.fun/
   avatar: https://gravatar.loli.net/avatar/ad5babe8213864d97007267d9e130291?s=320
   name: 小太
   blog: 小太の游乐园
   desc: 一个热爱ACG的技术宅
-  email: i@713.moe
+  email: im@baka.fun
   color: "#e74c3c"
 - url: https://haozi.moe/
   avatar: https://haozi.moe/css/images/logo.png
@@ -199,14 +199,14 @@
   email: wmliyin@outlook.com
   color: "#025f52"
 - url: https://ifmet.cn
-  avatar: https://cdn.jsdelivr.net/gh/xmuli/xmuliPic@pic/2020/20200729194553.png
+  avatar: https://fastly.jsdelivr.net/gh/xmuli/xmuliPic@pic/2020/20200729194553.png
   name: 偕臧
   blog: 偕臧
   desc: 与子偕臧
   email: xmulitech@gmail.com
   color: "#90A6BC"
 - url: https://azusemisa.top/
-  avatar: https://cdn.jsdelivr.net/gh/xiao-lin52/cdn-assets/images/avatar.webp
+  avatar: https://fastly.jsdelivr.net/gh/xiao-lin52/cdn-assets/images/avatar.webp
   name: AzuSemisa
   blog: AzuSemisa's Blog
   desc: 一个OI蒟蒻的小窝
@@ -219,12 +219,12 @@
   desc: (S)He Has Gone
   email: unscientific_kappa@outlook.com
   color: aqua
-- url: https://sknplz.xyz
-  avatar: https://cdn.jsdelivr.net/gh/Sknp1006/cdn@master/img/albums/arknights_Skadi/024.png
+- url: https://sknp.top
+  avatar: https://images.sknp.top/images/2021/05/04/025.jpg
   name: SKNP
   blog: SKNP的小站
-  desc: 为斯卡蒂献上心脏！
-  email: superai.zhe@gmail.com
+  desc: Someday I will be just like you.
+  email: leizhe1006@qq.com
   color: "#FF6A6A"
 - url: https://jokerm.com
   avatar: https://cdn.jokerm.com/?/imgcdn/logo.png
@@ -248,14 +248,14 @@
   email: j1g5aw@foxmail.com
   color: "#80070B"
 - url: https://sanshiliuxiao.top/
-  avatar: https://cdn.jsdelivr.net/gh/sanshiliuxiao/blog-static/avatar.jpg
+  avatar: https://fastly.jsdelivr.net/gh/sanshiliuxiao/blog-static/avatar.jpg
   name: 椎咲良田
   blog: 椎咲良田
   desc: 快走吧，趁风停止之前
   email: sanshiliuxiao@foxmail.com
   color: "#4f5b97"
 - url: https://ishya.top/
-  avatar: https://cdn.jsdelivr.net/gh/ukityh/ukityh.github.io@master/source/imgs/avatar.jpg
+  avatar: https://ishya.top/source/imgs/avatar.jpg
   name: Uki
   blog: UTOPIA
   desc: 散落在世界一角的故事
@@ -277,7 +277,7 @@
   email: fghrsh@wxw.moe
   color: "#38a3db"
 - url: https://cyris.moe/
-  avatar: https://cdn.jsdelivr.net/npm/cyris/images/avatar.png
+  avatar: https://fastly.jsdelivr.net/npm/cyris/images/avatar.png
   name: Cyris
   blog: Cyris
   desc: 带着美丽的心成长！
@@ -291,7 +291,7 @@
   email: 3225155810@qq.com
   color: "#000080"
 - url: https://davincievans.top/
-  avatar: https://cdn.jsdelivr.net/gh/DavinciEvans/Imgs-bed@master/gallery/avatar.jpg
+  avatar: https://fastly.jsdelivr.net/gh/DavinciEvans/Imgs-bed@master/gallery/avatar.jpg
   name: Davinci
   blog: Davinci の 红茶馆
   desc: You are all stardust.
@@ -333,21 +333,21 @@
   email: 2230647190@qq.com
   color: "#9400D3"
 - url: https://blog.becomingcelia.com
-  avatar: https://cdn.jsdelivr.net/gh/liangchuxin/blog-files/img/20210306130253.jpg
+  avatar: https://fastly.jsdelivr.net/gh/liangchuxin/blog-files/img/20210306130253.jpg
   name: Celia
   blog: Celia 的博客
   desc: 读万卷书，行万里路
   email: liangcx126@gmail.com
   color: "#02A289"
 - url: https://www.yuzhang.wang/
-  avatar: https://cdn.jsdelivr.net/gh/YuZhangWang/Creative_pictures01@main/img/20210907012640.png
+  avatar: https://gcore.jsdelivr.net/gh/YuZhangWang/Creative-pictures02@master/img/202210171416164.png
   name: YuZhangWang
   blog: YuZhangWang的领域
   desc: 两岸猿声啼不住 轻舟已过万重山
   email: YuZhangWang233@163.com
   color: "#7FC8F8"
 - url: https://www.miaoer.xyz
-  avatar: https://www.miaoer.xyz/weblogo.png
+  avatar: https://www.miaoer.xyz/weblogo.jpg
   name: 喵二
   blog: 喵二の小博客
   desc: 缘，妙不可言
@@ -360,3 +360,44 @@
   desc: 花有重开日，人无再少年。
   email: imcao@imcao.cn
   color: "#49b1f5"
+- url: https://blog.nin.red
+  avatar: https://blog.nin.red/img/icon.png
+  name: NoahHrreion
+  blog: NBlog
+  desc: 由一条咸鱼搭建的博客
+  email: nriot233@outlook.com
+  color: "#46c48b"
+- url: https://blog.sxzz.moe/
+  avatar: https://fastly.jsdelivr.net/gh/sxzz/static@latest/avatar.png
+  name: 三咲智子
+  desc: 三咲智子
+  email: hi@sxzz.moe
+  color: "#0078E7"
+- url: https://huangxin.dev
+  avatar: https://cloudflare.hxis.top/avatar/latest-180.jpg
+  name: 惶心
+  blog: 惶心博客
+  desc: 别说万事转头空 未转头时为梦
+  email: i@focuschen.com
+  color: "#255597"
+- url: https://yuumi.link
+  avatar: https://cdn.yuumi.link/images/settings/favicon.png
+  name: Yuumi
+  blog: Yuumi的烟波之路
+  desc: 続きを鳴らそう——
+  email: yuumi0221@outlook.com
+  color: "#D69B54"
+- url: https://rong6.cn
+  avatar: https://static.codemao.cn/coco/player/unstable/HJU2TH3pn.image/jpeg
+  name: 荣6呀
+  blog: 荣6的小站
+  desc: 永远相信美好的事情即将发生！
+  email: 1604201832@qq.com
+  color: '#f4645c'
+- url: https://lihaoyu.cn
+  avatar: https://blog-api.lihaoyu.cn/avatar
+  name: Big_Cake
+  blog: 晓雨杂记
+  desc: 也许我们会分别，但我们将永远不会忘记彼此。
+  email: me@lihaoyu.cn
+  color: '#F2BC57'

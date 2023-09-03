@@ -1,7 +1,22 @@
 {
   "name": "friends",
-  "description": "YunYouJun's friends",
   "version": "1.0.0",
+  "packageManager": "pnpm@8.1.0",
+  "description": "YunYouJun's friends",
+  "author": {
+    "name": "YunYouJun",
+    "email": "me@yunyoujun.cn",
+    "url": "https://www.yunyoujun.cn"
+  },
+  "license": "MIT",
+  "homepage": "https://www.yunyoujun.cn/links/",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/YunYouJun/friends.git"
+  },
+  "bugs": {
+    "url": "https://github.com/YunYouJun/friends/issues"
+  },
   "bin": "./bin/run",
   "files": [
     "/bin",
@@ -9,41 +24,29 @@
   ],
   "scripts": {
     "build": "npm run build:json",
-    "build:lib": "npm run prepack",
     "build:json": "npm run generate && npm run copy",
-    "generate": "ts-node src/generate.ts",
+    "generate": "tsx scripts/generate.ts",
+    "lint": "eslint .",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
-    "friends": "friends add",
+    "friends": "tsx scripts/index.ts add",
     "update": "git add -A && git commit -m '👥 update friends' && git push",
-    "prepack": "rm -rf lib && tsc -b"
+    "typecheck": "tsc --noEmit"
   },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/YunYouJun/friends.git"
-  },
-  "author": {
-    "name": "YunYouJun",
-    "email": "me@yunyoujun.cn",
-    "url": "https://www.yunyoujun.cn"
-  },
-  "license": "MIT",
-  "bugs": {
-    "url": "https://github.com/YunYouJun/friends/issues"
-  },
-  "homepage": "https://www.yunyoujun.cn/links/",
   "dependencies": {
-    "chalk-pipe": "^5.1.1",
-    "commander": "^8.3.0",
-    "inquirer": "^8.2.0",
+    "chalk-pipe": "^6.0.0",
+    "commander": "^10.0.1",
+    "inquirer": "^9.1.4",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@types/chalk-pipe": "^2.0.0",
-    "@types/inquirer": "^8.1.3",
-    "@types/js-yaml": "^4.0.4",
-    "@types/node": "^16.11.6",
-    "@yunyoujun/logger": "^0.1.4",
-    "ts-node": "^10.4.0",
-    "typescript": "^4.4.4"
+    "@antfu/eslint-config": "^0.38.4",
+    "@types/chalk-pipe": "^2.0.1",
+    "@types/inquirer": "^9.0.3",
+    "@types/js-yaml": "^4.0.5",
+    "@types/node": "^18.11.18",
+    "consola": "^3.0.2",
+    "eslint": "^8.38.0",
+    "tsx": "^3.12.2",
+    "typescript": "^4.9.4"
   }
 }
