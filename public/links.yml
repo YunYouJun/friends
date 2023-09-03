@@ -352,7 +352,14 @@
   blog: 喵二の小博客
   desc: 缘，妙不可言
   email: miaoermua@gmail.com
-  color: "#DDDFF4"
+  color: "#E9A390"
+- url: https://www.imcao.cn
+  avatar: https://www.imcao.cn/avatar.png
+  name: ImCaO
+  blog: ImCaO's Blog
+  desc: 花有重开日，人无再少年。
+  email: imcao@imcao.cn
+  color: "#49b1f5"
 - url: https://blog.nin.red
   avatar: https://blog.nin.red/img/icon.png
   name: NoahHrreion
@@ -394,4 +401,3 @@
   desc: 也许我们会分别，但我们将永远不会忘记彼此。
   email: me@lihaoyu.cn
   color: '#F2BC57'
-  
