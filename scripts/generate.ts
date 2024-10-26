@@ -1,6 +1,6 @@
 import fs from 'node:fs'
-import yaml from 'js-yaml'
 import consola from 'consola'
+import yaml from 'js-yaml'
 import config from './config'
 
 /**
@@ -43,7 +43,6 @@ export interface Friend {
 
 /**
  * 生成 links.json
- * @returns
  */
 function generateLinksJson() {
   const distFolder = 'dist'

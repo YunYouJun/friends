@@ -1,7 +1,7 @@
 {
   "name": "friends",
   "version": "1.0.0",
-  "packageManager": "pnpm@8.1.0",
+  "packageManager": "pnpm@9.12.2",
   "description": "YunYouJun's friends",
   "author": {
     "name": "YunYouJun",
@@ -23,30 +23,29 @@
     "/lib"
   ],
   "scripts": {
+    "add": "tsx scripts/index.ts add",
     "build": "npm run build:json",
     "build:json": "npm run generate && npm run copy",
     "generate": "tsx scripts/generate.ts",
     "lint": "eslint .",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
-    "friends": "tsx scripts/index.ts add",
     "update": "git add -A && git commit -m '👥 update friends' && git push",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "chalk-pipe": "^6.0.0",
-    "commander": "^10.0.1",
-    "inquirer": "^9.1.4",
+    "@clack/prompts": "^0.7.0",
+    "chalk-pipe": "^6.2.0",
+    "commander": "^12.1.0",
     "js-yaml": "^4.1.0"
   },
   "devDependencies": {
-    "@antfu/eslint-config": "^0.38.4",
-    "@types/chalk-pipe": "^2.0.1",
-    "@types/inquirer": "^9.0.3",
-    "@types/js-yaml": "^4.0.5",
-    "@types/node": "^18.11.18",
-    "consola": "^3.0.2",
-    "eslint": "^8.38.0",
-    "tsx": "^3.12.2",
-    "typescript": "^4.9.4"
+    "@antfu/eslint-config": "^3.8.0",
+    "@types/chalk-pipe": "^2.0.4",
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^22.8.1",
+    "consola": "^3.2.3",
+    "eslint": "^9.13.0",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3"
   }
 }
