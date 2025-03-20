@@ -1,5 +1,5 @@
 import fs from 'node:fs'
-import consola from 'consola'
+import { consola } from 'consola'
 import yaml from 'js-yaml'
 import config from './config'
 

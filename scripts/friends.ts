@@ -3,7 +3,7 @@ import fs from 'node:fs'
 import process from 'node:process'
 import chalkPipe from 'chalk-pipe'
 import { program } from 'commander'
-import consola from 'consola'
+import { consola } from 'consola'
 
 import yaml from 'js-yaml'
 
