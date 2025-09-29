@@ -422,3 +422,11 @@
   desc: 所有奇迹的始发点
   email: contact@kfdzcoffee.cn
   color: "#7FC8F8"
+- url: https://adaiblog.github.io
+  avatar: https://adaiblog.github.io/img/adai.png
+  name: 阿呆
+  blog: 阿呆的博客
+  desc: 分享，学习有趣的知识
+  email: adaigeek@outlook.com
+  color: '#18c964'
+  
