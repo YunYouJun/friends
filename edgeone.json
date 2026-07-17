@@ -2,7 +2,7 @@
   "outputDirectory": "dist",
   "headers": [
     {
-      "source": "/links.json",
+      "source": "/*",
       "headers": [
         {
           "key": "Access-Control-Allow-Origin",
