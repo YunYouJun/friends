@@ -1,4 +1,5 @@
 {
+  "outputDirectory": "dist",
   "headers": [
     {
       "source": "/links.json",
