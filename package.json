@@ -37,7 +37,7 @@
     "@clack/prompts": "^0.11.0",
     "chalk-pipe": "^6.2.0",
     "commander": "^14.0.0",
-    "js-yaml": "^4.1.0"
+    "js-yaml": "^4.3.0"
   },
   "devDependencies": {
     "@antfu/eslint-config": "^5.1.0",
