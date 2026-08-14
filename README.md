@@ -61,7 +61,7 @@
 
 - 在 GitHub 上 `Fork` 此仓库
 - 按照以上格式在 [`public/links.yml`](./public/links.yml) 文件末尾新增你的信息（最末尾留一个空行）
-- 完成后，新建 `Pull Request`。PR 标题须遵循 Conventional Commits，例如新增友链使用 `feat(links): add yunyoujun.cn`，更新现有友链使用 `fix(links): update yunyoujun.cn`。
+- 完成后，新建 `Pull Request`。PR 标题须遵循 `[emoji] <type>(<scope>): <subject>` 格式，emoji 可选且可自由发挥。例如新增友链使用 `✨ feat(links): add yunyoujun.cn`，更新现有友链使用 `🔧 fix(links): update yunyoujun.cn`。
 - 当 `Pull Request` 被合并后，请尽快于您的站点添加本站友链，您的站点将在 10 分钟内显示在[云游君的小伙伴](https://www.yunyoujun.cn/links/)里。
 
 ## Cli
