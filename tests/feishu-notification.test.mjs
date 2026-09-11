@@ -4,18 +4,17 @@ import { spawnSync } from 'node:child_process'
 import process from 'node:process'
 import test from 'node:test'
 import { fileURLToPath } from 'node:url'
-import { createFeishuPayload, sendFeishuNotification, signFeishu } from '../scripts/feishu-notification.mjs'
+import { createFeishuCard, createFeishuPayload, sendFeishuNotification, signFeishu } from '../scripts/feishu-notification.mjs'
 
 const webhook = 'https://open.feishu.cn/open-apis/bot/v2/hook/test-only'
 const message = { subject: '[friends] Test', text: 'A test notification.' }
 
 test('Feishu payload includes bot keyword, plain content and clickable report links', () => {
   const payload = createFeishuPayload(message, { keyword: 'Studio', reportUrl: 'https://example.com/status/', runUrl: 'https://github.com/example/repo/actions/runs/1' })
-  assert.equal(payload.msg_type, 'post')
-  assert.match(payload.content.post.zh_cn.title, /Studio/)
-  assert.match(payload.content.post.zh_cn.content[0][0].text, /Studio/)
-  assert.equal(payload.content.post.zh_cn.content[1][0].tag, 'a')
-  assert.equal(payload.content.post.zh_cn.content[1][0].href, 'https://example.com/status/')
+  assert.equal(payload.msg_type, 'interactive')
+  assert.match(payload.card.header.title.content, /Studio/)
+  assert.equal(payload.card.elements[1].actions[0].tag, 'button')
+  assert.equal(payload.card.elements[1].actions[0].url, 'https://example.com/status/')
   assert.equal(payload.sign, undefined)
   assert.throws(() => createFeishuPayload(message, { reportUrl: 'javascript:alert(1)' }), /HTTP/)
 })
@@ -24,7 +23,7 @@ test('long Unicode and control-character reports stay below the Feishu payload l
   for (const text of ['异常😀'.repeat(10000), '\u0000'.repeat(10000)]) {
     const payload = createFeishuPayload({ ...message, text }, { keyword: 'Studio', reportUrl: 'https://example.com/status/' })
     assert.ok(Buffer.byteLength(JSON.stringify(payload)) < 20000)
-    assert.match(payload.content.post.zh_cn.content[0][0].text, /完整内容/)
+    assert.match(payload.card.elements[0].text.content, /完整内容/)
     assert.ok(!JSON.stringify(payload).includes('\uFFFD'))
   }
 })
@@ -48,7 +47,7 @@ test('sending checks both HTTP and Feishu business status without following redi
     assert.equal(options.redirect, 'error')
     assert.equal(options.method, 'POST')
     assert.ok(options.signal instanceof AbortSignal)
-    assert.match(JSON.parse(options.body).content.post.zh_cn.title, /Studio/)
+    assert.match(JSON.parse(options.body).card.header.title.content, /Studio/)
     return { ok: true, json: async () => ({ code: 0 }) }
   })
   assert.equal(calls, 1)
@@ -89,4 +88,98 @@ test('CLI defaults off and test dry-run contains neither webhook nor signing sec
   assert.ok(!preview.stdout.includes('test-only-secret'))
   assert.ok(!preview.stdout.includes('"sign"'))
   assert.match(preview.stdout, /通知链路验证/)
+})
+
+test('card uses plain text for site data, bounded summaries and accurate metadata', () => {
+  const card = createFeishuCard({
+    ...message,
+    summary: { total: 12, reachable: 4, restricted: 1, unavailable: 7 },
+    completedAt: '2026-09-11T01:17:00Z',
+    observer: 'github-actions-ubuntu',
+    entries: Array.from({ length: 8 }, () => ({ reason: '新增不可访问', item: { name: '<at id=all></at> **example**', url: 'https://example.com/', consecutiveFailures: 2 } })),
+  }, { reportUrl: 'https://example.com/status/' })
+  assert.equal(card.header.template, 'orange')
+  assert.equal(card.config.enable_forward, false)
+  assert.deepEqual(card.elements[0].fields.map(field => field.text.content.split('\n')[1]), ['12', '4', '1', '7'])
+  assert.match(card.elements[1].elements[0].content, /9:17|09:17/)
+  const siteRows = card.elements.filter(element => element.text?.content.includes('<at'))
+  assert.equal(siteRows.length, 6)
+  assert.ok(siteRows.every(row => row.text.tag === 'plain_text'))
+  assert.match(JSON.stringify(card), /另有 2 项/)
+})
+
+const appOptions = { transport: 'app', appId: 'test-app', appSecret: 'test-app-secret', receiveId: 'test-self', receiveIdType: 'user_id' }
+const success = data => ({ ok: true, json: async () => ({ code: 0, ...data }) })
+
+test('application bot authenticates then sends an interactive direct message with stable deduplication', async () => {
+  const sent = []
+  const fetcher = async (url, options) => {
+    assert.equal(options.redirect, 'error')
+    const body = JSON.parse(options.body)
+    if (url.endsWith('/tenant_access_token/internal')) {
+      assert.deepEqual(body, { app_id: 'test-app', app_secret: 'test-app-secret' })
+      return success({ tenant_access_token: 'test-token' })
+    }
+    assert.equal(url, 'https://open.feishu.cn/open-apis/im/v1/messages?receive_id_type=user_id')
+    assert.equal(options.headers.Authorization, 'Bearer test-token')
+    assert.equal(body.receive_id, 'test-self')
+    assert.equal(body.msg_type, 'interactive')
+    assert.equal(JSON.parse(body.content).header.title.content, message.subject)
+    assert.ok(body.uuid.length <= 50)
+    sent.push(body)
+    return success({ data: { message_id: 'test-message-id' } })
+  }
+  assert.deepEqual(await sendFeishuNotification(message, appOptions, fetcher), { messageId: 'test-message-id' })
+  await sendFeishuNotification(message, appOptions, fetcher)
+  await sendFeishuNotification({ ...message, text: 'Changed content' }, appOptions, fetcher)
+  assert.equal(sent[0].uuid, sent[1].uuid)
+  assert.notEqual(sent[0].uuid, sent[2].uuid)
+})
+
+test('application configuration and authentication failures never attempt delivery', async () => {
+  const forbidden = async () => assert.fail('Must not make a network request')
+  await assert.rejects(sendFeishuNotification(message, { ...appOptions, transport: 'unexpected' }, forbidden), /FEISHU_TRANSPORT/)
+  await assert.rejects(sendFeishuNotification(message, { ...appOptions, appSecret: '' }, forbidden), /FEISHU_APP_SECRET/)
+  await assert.rejects(sendFeishuNotification(message, { ...appOptions, receiveIdType: 'chat_id' }, forbidden), /direct messages/)
+  for (const result of [{ code: 10003, msg: 'test-app-secret' }, { code: 0 }]) {
+    let calls = 0
+    await assert.rejects(sendFeishuNotification(message, appOptions, async () => {
+      calls++
+      return { ok: true, json: async () => result }
+    }), (error) => {
+      assert.ok(!error.message.includes('test-app-secret'))
+      return true
+    })
+    assert.equal(calls, 1)
+  }
+})
+
+test('direct message rejection and uncertain delivery are not retried or logged with secrets', async () => {
+  for (const failure of ['network', 'business', 'missing-id']) {
+    let calls = 0
+    await assert.rejects(sendFeishuNotification(message, appOptions, async (url) => {
+      calls++
+      if (url.endsWith('/internal'))
+        return success({ tenant_access_token: 'test-token' })
+      if (failure === 'network')
+        throw new Error('test-app-secret test-token')
+      return { ok: true, json: async () => failure === 'business' ? { code: 230013, msg: 'test-token' } : { code: 0 } }
+    }), (error) => {
+      assert.ok(!error.message.includes('test-token') && !error.message.includes('test-app-secret'))
+      return true
+    })
+    assert.equal(calls, 2)
+  }
+})
+
+test('application dry-run excludes recipient and app credentials', () => {
+  const entry = fileURLToPath(new URL('../scripts/notify-feishu-report.mjs', import.meta.url))
+  const env = { PATH: process.env.PATH, FEISHU_TRANSPORT: 'app', FEISHU_APP_ID: 'private-app-id', FEISHU_APP_SECRET: 'private-app-secret', FEISHU_RECEIVE_ID: 'private-user-id' }
+  const result = spawnSync(process.execPath, [entry, '--test', '--dry-run'], { env, encoding: 'utf8' })
+  assert.equal(result.status, 0, result.stderr)
+  assert.ok(!result.stdout.includes('private-'))
+  const payload = JSON.parse(result.stdout)
+  assert.equal(payload.msg_type, 'interactive')
+  assert.equal(payload.card.header.template, 'blue')
+  assert.match(JSON.stringify(payload), /历史快照/)
 })

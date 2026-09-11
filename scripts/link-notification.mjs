@@ -40,11 +40,16 @@ export function createNotification(report, previous, mode, reportUrl, runUrl) {
   if (mode === 'weekly') {
     const recovered = changes.filter(({ reason }) => reason === '恢复访问')
     lines.push(...recovered.map(({ item }) => `- 恢复访问：${singleLine(item.name || item.url)} ${item.url}`))
+    entries.push(...recovered)
   }
   lines.push('', `状态页：${reportUrl}`, `本次运行与报告附件：${runUrl}`, '', '访问受限不等于失效；连续失败次数是独立观测，不代表期间持续宕机。')
   return {
     subject: mode === 'weekly' ? '[friends] 每周友链检测摘要' : `[friends] ${changes.length} 项友链状态变化`,
     text: lines.join('\n'),
+    summary: report.summary,
+    completedAt: report.completedAt,
+    observer: report.observer,
+    entries,
   }
 }
 

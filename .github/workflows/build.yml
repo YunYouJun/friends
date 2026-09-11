@@ -154,6 +154,11 @@ jobs:
         run: pnpm run notify:links:feishu
         env:
           LINK_FEISHU_MODE: ${{ vars.LINK_FEISHU_MODE }}
+          FEISHU_TRANSPORT: ${{ vars.FEISHU_TRANSPORT }}
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
+          FEISHU_RECEIVE_ID_TYPE: ${{ vars.FEISHU_RECEIVE_ID_TYPE }}
           FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
           FEISHU_WEBHOOK_SECRET: ${{ secrets.FEISHU_WEBHOOK_SECRET }}
           FEISHU_KEYWORD: ${{ vars.FEISHU_KEYWORD }}
