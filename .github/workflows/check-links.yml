@@ -1,0 +1,42 @@
+name: Check friend links
+
+on:
+  workflow_call:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+
+      - name: Check friends
+        run: pnpm run check:links:ci
+
+      - name: Add report to run summary
+        if: always()
+        run: |
+          if [ -f reports/friends/report.md ]; then
+            cat reports/friends/report.md >> "$GITHUB_STEP_SUMMARY"
+          fi
+
+      - name: Upload reports
+        if: always()
+        uses: actions/upload-artifact@v7.0.1
+        with:
+          name: friend-link-report
+          path: |
+            reports/friends/
+            reports/site/
+          retention-days: 30
+          if-no-files-found: ignore

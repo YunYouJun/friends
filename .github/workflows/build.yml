@@ -11,19 +11,37 @@ on:
       - main
       - master
 
+  schedule:
+    # Monday 09:17 in Asia/Shanghai (GitHub schedules use UTC).
+    - cron: '17 1 * * 1'
+
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+# Serialize scheduled snapshot updates and normal site deployments.
+concurrency:
+  group: friends-site-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: false
+
 jobs:
+  check-links:
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch'
+    uses: ./.github/workflows/check-links.yml
+
   lint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: lts/*
+          node-version: '24'
           cache: pnpm
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
         run: pnpm run lint
@@ -31,42 +49,151 @@ jobs:
   typecheck:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: lts/*
+          node-version: '24'
           cache: pnpm
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
 
       - name: Typecheck
         run: pnpm run typecheck
 
+      - name: Test report automation
+        run: pnpm test
+
   build:
+    needs: [lint, typecheck, check-links]
+    if: >-
+      always() && !cancelled()
+      && needs.lint.result == 'success'
+      && needs.typecheck.result == 'success'
+      && (needs.check-links.result == 'success' || needs.check-links.result == 'skipped')
     runs-on: ubuntu-latest
     permissions:
       contents: write
     steps:
-      - uses: actions/checkout@v3
-      - uses: pnpm/action-setup@v2
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v7.0.1
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
         with:
-          node-version: lts/*
+          node-version: '24'
           cache: pnpm
 
       - name: Install
-        run: pnpm install
+        run: pnpm install --frozen-lockfile
+
+      - name: Download completed observations
+        if: needs.check-links.result == 'success'
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: friend-link-report
+          path: reports
+
+      - name: Update status page snapshot
+        if: needs.check-links.result == 'success'
+        run: pnpm run report:links:save
 
       - name: Build
         run: pnpm run build
 
+      - name: Persist weekly snapshot
+        if: needs.check-links.result == 'success' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        env:
+          DEFAULT_BRANCH: ${{ github.event.repository.default_branch }}
+        run: |
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add public/status/report.json
+          if ! git diff --cached --quiet; then
+            git commit -m 'chore(status): refresh weekly friend link report'
+            git push origin "HEAD:refs/heads/$DEFAULT_BRANCH"
+          fi
+
       - name: Deploy
-        if: github.event_name == 'push'
-        uses: peaceiris/actions-gh-pages@v3
+        if: github.event_name != 'pull_request' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        uses: peaceiris/actions-gh-pages@v4.1.0
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
           force_orphan: true
           enable_jekyll: true
+
+      - name: Verify public status page has this report
+        if: needs.check-links.result == 'success' && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+        timeout-minutes: 7
+        run: pnpm run report:links:verify
+
+  notify-feishu:
+    needs: [check-links, build]
+    if: >-
+      needs.check-links.result == 'success' && needs.build.result == 'success'
+      && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+      && github.run_attempt == 1
+      && (vars.LINK_FEISHU_MODE == 'changes' || vars.LINK_FEISHU_MODE == 'weekly')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          name: friend-link-report
+          path: reports
+      - name: Send optional Feishu notification
+        run: pnpm run notify:links:feishu --mode "$LINK_FEISHU_MODE"
+        env:
+          LINK_FEISHU_MODE: ${{ vars.LINK_FEISHU_MODE }}
+          FEISHU_TRANSPORT: ${{ vars.FEISHU_TRANSPORT }}
+          FEISHU_APP_ID: ${{ secrets.FEISHU_APP_ID }}
+          FEISHU_APP_SECRET: ${{ secrets.FEISHU_APP_SECRET }}
+          FEISHU_RECEIVE_ID: ${{ secrets.FEISHU_RECEIVE_ID }}
+          FEISHU_RECEIVE_ID_TYPE: ${{ vars.FEISHU_RECEIVE_ID_TYPE }}
+          FEISHU_WEBHOOK_URL: ${{ secrets.FEISHU_WEBHOOK_URL }}
+          FEISHU_WEBHOOK_SECRET: ${{ secrets.FEISHU_WEBHOOK_SECRET }}
+          FEISHU_KEYWORD: ${{ vars.FEISHU_KEYWORD }}
+
+  notify-email:
+    needs: [check-links, build]
+    if: >-
+      needs.check-links.result == 'success' && needs.build.result == 'success'
+      && github.ref == format('refs/heads/{0}', github.event.repository.default_branch)
+      && github.run_attempt == 1
+      && (vars.LINK_EMAIL_MODE == 'changes' || vars.LINK_EMAIL_MODE == 'weekly')
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      # Read the snapshot from BEFORE this run's update to compare observations.
+      - uses: actions/checkout@v7.0.1
+        with:
+          ref: ${{ github.sha }}
+      - uses: pnpm/action-setup@v6.1.0
+      - uses: actions/setup-node@v7.0.0
+        with:
+          node-version: '24'
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - uses: actions/download-artifact@v8.0.1
+        with:
+          name: friend-link-report
+          path: reports
+      - name: Send optional email notification
+        run: pnpm run notify:links --mode "$LINK_EMAIL_MODE"
+        env:
+          LINK_EMAIL_MODE: ${{ vars.LINK_EMAIL_MODE }}
+          SMTP_HOST: ${{ secrets.SMTP_HOST }}
+          SMTP_PORT: ${{ vars.SMTP_PORT }}
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASSWORD: ${{ secrets.SMTP_PASSWORD }}
+          MAIL_FROM: ${{ secrets.MAIL_FROM }}
+          MAIL_TO: ${{ secrets.MAIL_TO }}
