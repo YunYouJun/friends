@@ -59,7 +59,7 @@
     "@types/node": "^24.1.0",
     "consola": "^3.4.2",
     "eslint": "^9.32.0",
-    "meodp": "^0.2.1",
+    "meodp": "^0.2.2",
     "nodemailer": "^10.0.3",
     "tsx": "^4.20.3",
     "typescript": "^5.9.2"
