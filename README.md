@@ -144,7 +144,7 @@ pnpm run build
 
 保存命令会验证数据格式并原子替换快照，缺失或无效报告不会覆盖上次结果。本地文件用于预览；要更新线上报告，请手动运行 **YunYouJun Friends** 工作流。单独执行 **Check friend links** 只生成附件，不发布。
 
-线上历史以 `gh-pages/status/report.json` 为准，默认分支中的 JSON 保留为本地预览快照。普通代码构建先执行 `pnpm run report:links:restore` 读取已发布快照，避免新代码覆盖最新检测数据。`edgeone.json` 仅将 `/status/report.json` 代理到该发布分支，状态页与其他页面仍由现有 EdgeOne 构建部署，无需额外服务或部署凭证。
+线上历史以 `gh-pages/status/report.json` 为准，默认分支中的 JSON 保留为本地预览快照。普通代码构建先执行 `pnpm run report:links:restore` 读取已发布快照，避免新代码覆盖最新检测数据。`edgeone.json` 仅将 `/status/report.json` 以 302 临时重定向到该发布分支，状态页与其他页面仍由现有 EdgeOne 构建部署，无需额外服务或部署凭证。
 
 ### 每周自动检测与部署
 
@@ -152,7 +152,7 @@ pnpm run build
 
 1. 检测友链，生成 JSON、Markdown 和交互报告，并上传保留 30 天的附件。
 2. 通过 lint、类型检查和自动化测试后，保存快照并构建静态站点。
-3. 将完整静态产物发布到 `gh-pages`，保留默认分支的 PR 保护。EdgeOne 状态页通过同域 JSON 代理读取最新报告；Git 集成仍负责代码更新，构建命令为 `pnpm run build`，产物目录为 `dist`，Node.js 使用 24。
+3. 将完整静态产物发布到 `gh-pages`，保留默认分支的 PR 保护。EdgeOne 状态页通过 JSON 地址的临时重定向读取最新报告；Git 集成仍负责代码更新，构建命令为 `pnpm run build`，产物目录为 `dist`，Node.js 使用 24。
 4. 轮询公开状态页，核对 JSON 与本次报告完全一致且交互页面已部署。最多尝试 24 次、间隔 15 秒，等待上游缓存刷新；超时或仍是旧数据会令流程报错。
 5. 如已启用飞书或邮件，在线验证成功后发送通知。通知同时包含公开状态页和运行附件链接，两个通道独立运行。
 

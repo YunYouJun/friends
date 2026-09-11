@@ -20,10 +20,11 @@
       ]
     }
   ],
-  "rewrites": [
+  "redirects": [
     {
       "source": "/status/report.json",
-      "destination": "https://raw.githubusercontent.com/YunYouJun/friends/gh-pages/status/report.json"
+      "destination": "https://raw.githubusercontent.com/YunYouJun/friends/gh-pages/status/report.json",
+      "statusCode": 302
     }
   ]
 }
