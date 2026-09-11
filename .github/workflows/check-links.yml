@@ -20,6 +20,9 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
+      - name: Restore published baseline
+        run: pnpm run report:links:restore -- reports/previous/report.json
+
       - name: Check friends
         run: pnpm run check:links:ci
 
@@ -38,5 +41,6 @@ jobs:
           path: |
             reports/friends/
             reports/site/
+            reports/previous/
           retention-days: 30
           if-no-files-found: ignore

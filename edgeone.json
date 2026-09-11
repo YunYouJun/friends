@@ -9,6 +9,21 @@
           "value": "*"
         }
       ]
+    },
+    {
+      "source": "/status/report.json",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-cache, max-age=0, must-revalidate"
+        }
+      ]
+    }
+  ],
+  "rewrites": [
+    {
+      "source": "/status/report.json",
+      "destination": "https://raw.githubusercontent.com/YunYouJun/friends/gh-pages/status/report.json"
     }
   ]
 }
