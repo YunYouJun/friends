@@ -4,6 +4,7 @@ import { defineConfig } from 'meodp/config'
 const inActions = process.env.GITHUB_ACTIONS === 'true'
 const report = 'reports/friends/report.json'
 const snapshot = 'public/status/report.json'
+const previousReport = inActions ? 'reports/previous/report.json' : snapshot
 const reportUrl = 'https://friends.yunyoujun.cn/status/'
 const repository = `${process.env.GITHUB_SERVER_URL || 'https://github.com'}/${process.env.GITHUB_REPOSITORY || 'YunYouJun/friends'}`
 
@@ -18,7 +19,7 @@ export default defineConfig({
     input: 'public/links.yml',
     output: 'reports/friends',
     history: inActions ? '.cache/friends/github-actions.json' : '.cache/friends/local.json',
-    historySeed: inActions ? snapshot : undefined,
+    historySeed: inActions ? previousReport : undefined,
     observer: inActions ? 'github-actions-ubuntu' : undefined,
     observerMismatch: 'reset',
     failOn: 'none',
@@ -27,11 +28,11 @@ export default defineConfig({
     reporter: 'html',
     input: snapshot,
     output: 'dist/status',
-    verify: { url: `${reportUrl}report.json` },
+    verify: { url: `${reportUrl}report.json`, attempts: 24 },
   },
   notify: {
     input: report,
-    previousReport: snapshot,
+    previousReport,
     observerMismatch: 'reset',
     failureThreshold: 2,
     title: 'friends',

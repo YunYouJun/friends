@@ -81,7 +81,7 @@ pnpm friends
 
 所有检测、报告和通知设置集中在 [`meodp.config.ts`](./meodp.config.ts)，使用 `meodp/config` 的 `defineConfig` 获得类型提示。命令行参数优先于配置；配置内的文件路径相对配置文件解析，命令行路径相对当前目录解析。
 
-通用逻辑由 meodp 维护：历史恢复、状态变化判断、飞书卡片、应用私聊 / webhook、SMTP 和部署结果验证。friends 只保留友链数据、配置、保存公开快照的薄脚本和 GitHub Actions 编排。维护脚本和测试使用 TypeScript 与 `tsx`，`pnpm run typecheck` 同时检查配置。
+通用逻辑由 meodp 维护：历史恢复、状态变化判断、飞书卡片、应用私聊 / webhook、SMTP 和部署结果验证。friends 只保留友链数据、配置、读取和保存发布快照的薄脚本和 GitHub Actions 编排。维护脚本和测试使用 TypeScript 与 `tsx`，`pnpm run typecheck` 同时检查配置。
 
 其他脚本也可以直接使用公开 API，无需引用 friends 的内部脚本：
 
@@ -120,7 +120,7 @@ pnpm run check:links --help
 
 本机历史存放在 `.cache/friends/local.json`，以机器名标识执行环境。更换机器或网络时，可使用新的 `--history` 路径和 `--observer` 名称。连续失败次数表示跨次观测，不代表已经连续宕机多少天。
 
-GitHub Actions 提供 **Check friend links** 工作流。单独手动执行时只检测并上传报告附件；它也作为可复用工作流被每周发布流程调用。CI 从仓库中上次发布的 `public/status/report.json` 恢复历史，仅接受 `github-actions-ubuntu` 观测环境的数据；初始本机快照不会混入 CI 历史。GitHub 托管运行器的网络可能变化，结果仍需人工复核后再处理友链。
+GitHub Actions 提供 **Check friend links** 工作流。单独手动执行时只检测并上传报告附件；它也作为可复用工作流被每周发布流程调用。CI 从 `gh-pages` 分支的 `status/report.json` 恢复上次发布的历史，并将其放入本轮附件的 `previous/report.json`，仅接受 `github-actions-ubuntu` 观测环境的数据；初始本机快照不会混入 CI 历史。GitHub 托管运行器的网络可能变化，结果仍需人工复核后再处理友链。
 
 导出可部署的静态报告站点（读取已有结果，不重新检测）：
 
@@ -134,7 +134,7 @@ pnpm run report:links
 
 `pnpm run build` 会将仓库中的 `public/status/report.json` 渲染为 `dist/status/`。它随现有 GitHub Pages / EdgeOne 静态构建发布，访问路径为 [friends.yunyoujun.cn/status/](https://friends.yunyoujun.cn/status/)。构建只读取已保存的数据，不发起友链检测。
 
-更新公开快照：
+本地生成和预览快照：
 
 ```bash
 pnpm run check:links
@@ -142,9 +142,9 @@ pnpm run report:links:save
 pnpm run build
 ```
 
-检查报告后，将 `public/status/report.json` 的变更提交到仓库，合并后由现有部署流程发布。只保存 JSON，页面在构建时由正式版本的 meodp 生成。命令会验证数据格式并原子替换快照，缺失或无效报告不会覆盖上次结果。若手动发布本机报告，下次 CI 会重新开始累计历史；希望保留 CI 历史时请使用 CI 生成的快照。
+保存命令会验证数据格式并原子替换快照，缺失或无效报告不会覆盖上次结果。本地文件用于预览；要更新线上报告，请手动运行 **YunYouJun Friends** 工作流。单独执行 **Check friend links** 只生成附件，不发布。
 
-也可以手动执行 **Check friend links** 工作流，下载 `friend-link-report` artifact 中的 `friends/report.json`，放到本地 `reports/friends/report.json`，再执行保存、构建和提交步骤。公开页面是最近一次已发布的观测快照，不是实时监控。
+线上历史以 `gh-pages/status/report.json` 为准，默认分支中的 JSON 保留为本地预览快照。普通代码构建先执行 `pnpm run report:links:restore` 读取已发布快照，避免新代码覆盖最新检测数据。`edgeone.json` 仅将 `/status/report.json` 代理到该发布分支，状态页与其他页面仍由现有 EdgeOne 构建部署，无需额外服务或部署凭证。
 
 ### 每周自动检测与部署
 
@@ -152,11 +152,11 @@ pnpm run build
 
 1. 检测友链，生成 JSON、Markdown 和交互报告，并上传保留 30 天的附件。
 2. 通过 lint、类型检查和自动化测试后，保存快照并构建静态站点。
-3. 将快照自动提交回默认分支，再在同一次工作流中部署 GitHub Pages。EdgeOne 的 Git 集成会根据该推送触发部署；其构建命令应为 `pnpm run build`，产物目录为 `dist`，Node.js 使用 24。
-4. 轮询公开状态页，核对 JSON 与本次报告完全一致且交互页面已部署；超时或仍是旧数据会令流程报错。
+3. 将完整静态产物发布到 `gh-pages`，保留默认分支的 PR 保护。EdgeOne 状态页通过同域 JSON 代理读取最新报告；Git 集成仍负责代码更新，构建命令为 `pnpm run build`，产物目录为 `dist`，Node.js 使用 24。
+4. 轮询公开状态页，核对 JSON 与本次报告完全一致且交互页面已部署。最多尝试 24 次、间隔 15 秒，等待上游缓存刷新；超时或仍是旧数据会令流程报错。
 5. 如已启用飞书或邮件，在线验证成功后发送通知。通知同时包含公开状态页和运行附件链接，两个通道独立运行。
 
-检测与部署之间不依赖机器人提交再次触发 Actions，因为使用 `GITHUB_TOKEN` 的推送通常不会触发新的工作流。普通代码推送只构建和部署快照，不重新检测。定时运行与普通部署使用同一并发组，避免互相覆盖；如果默认分支在检测期间发生变更而导致快照推送冲突，流程会失败并保留上次报告，可重新运行，绝不强制推送。
+定时运行不向受保护的默认分支推送数据提交。普通代码推送只构建和部署已有报告，不重新检测；它与定时部署使用同一并发组，避免覆盖。每次检测的附件同时保存新报告和检测前的旧快照，飞书、邮件均使用这份固定基线，部署后也不会拿新报告与自身比较。
 
 配置合并到默认分支后定时任务才会生效。GitHub 定时任务可能延迟；公开仓库长期无活动时也可能自动停用，可在 Actions 页面检查并重新启用。详见 [GitHub 定时工作流文档](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)与 [EdgeOne Git 部署说明](https://pages.edgeone.ai/document/create-deploys)。
 

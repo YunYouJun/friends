@@ -42,6 +42,7 @@
     "update": "git add -A && git commit -m '👥 update friends' && git push",
     "typecheck": "tsc --noEmit",
     "report:links": "meodp report reports/friends/report.json --output reports/site",
+    "report:links:restore": "tsx scripts/restore-link-report.ts",
     "report:links:save": "tsx scripts/save-link-report.ts",
     "report:links:verify": "meodp report --verify"
   },
