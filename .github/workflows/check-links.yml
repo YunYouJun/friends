@@ -21,7 +21,7 @@ jobs:
       - run: pnpm install --frozen-lockfile
 
       - name: Restore observations from previous runs
-        run: node scripts/restore-link-history.mjs
+        run: pnpm run report:links:restore
 
       - name: Check friends
         run: pnpm run check:links:ci

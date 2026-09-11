@@ -1,8 +1,10 @@
+import type { FeishuOptions } from './feishu-notification.ts'
+import type { LinkNotification } from './link-notification.ts'
 import process from 'node:process'
 import { parseArgs } from 'node:util'
 import { readReport } from 'meodp/check'
-import { createFeishuCard, createFeishuPayload, sendFeishuNotification } from './feishu-notification.mjs'
-import { createNotification } from './link-notification.mjs'
+import { createFeishuCard, createFeishuPayload, sendFeishuNotification } from './feishu-notification.ts'
+import { createNotification, loadNotification } from './link-notification.ts'
 
 const { values } = parseArgs({ options: { 'dry-run': { type: 'boolean' }, 'test': { type: 'boolean' } } })
 const dryRun = values['dry-run']
@@ -11,7 +13,7 @@ if (mode === 'off' && !values.test) {
   console.log('Feishu notifications are disabled.')
 }
 else {
-  const options = {
+  const options: FeishuOptions = {
     transport: process.env.FEISHU_TRANSPORT || 'webhook',
     appId: process.env.FEISHU_APP_ID,
     appSecret: process.env.FEISHU_APP_SECRET,
@@ -21,7 +23,7 @@ else {
     secret: process.env.FEISHU_WEBHOOK_SECRET,
     keyword: process.env.FEISHU_KEYWORD,
   }
-  let message
+  let message: LinkNotification | undefined
   if (values.test) {
     const snapshot = await readReport('public/status/report.json')
     options.reportUrl = 'https://github.com/YunYouJun/friends'
@@ -35,15 +37,10 @@ else {
     }
   }
   else {
-    const report = await readReport('reports/friends/report.json')
-    if (!report)
-      throw new Error('Missing completed report; run check:links first.')
-    const previous = await readReport('public/status/report.json')
-    const server = process.env.GITHUB_SERVER_URL || 'https://github.com'
-    const repository = process.env.GITHUB_REPOSITORY || 'YunYouJun/friends'
-    options.reportUrl = 'https://friends.yunyoujun.cn/status/'
-    options.runUrl = process.env.GITHUB_RUN_ID ? `${server}/${repository}/actions/runs/${process.env.GITHUB_RUN_ID}` : `${server}/${repository}/actions`
-    message = createNotification(report, previous, mode, options.reportUrl, options.runUrl)
+    const context = await loadNotification(mode)
+    options.reportUrl = context.reportUrl
+    options.runUrl = context.runUrl
+    message = context.message
   }
   if (!message) {
     console.log('No important status changes; Feishu notification skipped.')

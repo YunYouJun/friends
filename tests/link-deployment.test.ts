@@ -1,10 +1,8 @@
 import assert from 'node:assert/strict'
-import { readFileSync } from 'node:fs'
 import { createServer } from 'node:http'
 import test from 'node:test'
-import { waitForReport } from '../scripts/link-deployment.mjs'
-
-const report = JSON.parse(readFileSync(new URL('../public/status/report.json', import.meta.url), 'utf8'))
+import { waitForReport } from '../scripts/link-deployment.ts'
+import { snapshot as report } from './helpers.ts'
 
 test('deployment verification waits through missing, invalid and stale data before accepting the exact report', async () => {
   let requests = 0
@@ -16,7 +14,7 @@ test('deployment verification waits through missing, invalid and stale data befo
       return
     }
     requests++
-    assert.ok(request.url.includes('observation='))
+    assert.ok(request.url?.includes('observation='))
     if (requests === 1) {
       response.writeHead(404).end()
       return
@@ -25,8 +23,10 @@ test('deployment verification waits through missing, invalid and stale data befo
     response.writeHead(200, { 'Content-Type': 'application/json' })
     response.end(JSON.stringify(data))
   })
-  await new Promise(resolve => server.listen(0, '127.0.0.1', resolve))
-  const options = { url: `http://127.0.0.1:${server.address().port}/status/report.json`, attempts: 4, delayMs: 0 }
+  await new Promise<void>(resolve => server.listen(0, '127.0.0.1', resolve))
+  const address = server.address()
+  assert.ok(address && typeof address !== 'string')
+  const options = { url: `http://127.0.0.1:${address.port}/status/report.json`, attempts: 4, delayMs: 0 }
   try {
     await waitForReport(report, options)
     assert.equal(requests, 4)
@@ -35,6 +35,6 @@ test('deployment verification waits through missing, invalid and stale data befo
     await assert.rejects(waitForReport({ ...report, completedAt: '2025-02-01T00:00:00Z' }, { ...options, attempts: 1 }), /did not serve/)
   }
   finally {
-    await new Promise(resolve => server.close(resolve))
+    await new Promise<void>((resolve, reject) => server.close(error => error ? reject(error) : resolve()))
   }
 })

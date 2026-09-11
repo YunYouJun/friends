@@ -35,14 +35,16 @@
     "build:status": "meodp report public/status/report.json --output dist/status",
     "generate": "tsx scripts/generate.ts",
     "lint": "eslint .",
-    "test": "node --test tests/*.test.mjs",
-    "notify:links": "node scripts/notify-link-report.mjs",
-    "notify:links:feishu": "node scripts/notify-feishu-report.mjs",
+    "test": "tsx --test tests/*.test.ts",
+    "notify:links": "tsx scripts/notify-link-report.ts",
+    "notify:links:feishu": "tsx scripts/notify-feishu-report.ts",
     "copy": "cp -r ./public/. ./dist && cp README.md ./dist/",
     "update": "git add -A && git commit -m '👥 update friends' && git push",
     "typecheck": "tsc --noEmit",
     "report:links": "meodp report reports/friends/report.json --output reports/site",
-    "report:links:save": "node scripts/save-link-report.mjs"
+    "report:links:save": "tsx scripts/save-link-report.ts",
+    "report:links:restore": "tsx scripts/restore-link-history.ts",
+    "report:links:verify": "tsx scripts/verify-link-deployment.ts"
   },
   "dependencies": {
     "@clack/prompts": "^0.11.0",
@@ -55,6 +57,7 @@
     "@types/chalk-pipe": "^2.0.4",
     "@types/js-yaml": "^4.0.9",
     "@types/node": "^24.1.0",
+    "@types/nodemailer": "^8.0.1",
     "consola": "^3.4.2",
     "eslint": "^9.32.0",
     "meodp": "^0.1.0",

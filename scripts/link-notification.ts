@@ -1,7 +1,25 @@
-const labels = { reachable: '可访问', restricted: '访问受限', unavailable: '本次不可访问' }
-const singleLine = value => String(value).replace(/[\r\n]+/g, ' ')
+import type { CheckReport, LinkObservation } from 'meodp/check'
+import type SMTPTransport from 'nodemailer/lib/smtp-transport'
+import process from 'node:process'
+import { readReport } from 'meodp/check'
 
-export function createNotification(report, previous, mode, reportUrl, runUrl) {
+export interface NotificationEntry {
+  item: LinkObservation
+  reason: string
+}
+
+export interface LinkNotification {
+  subject: string
+  text: string
+  test?: boolean
+  report?: Pick<CheckReport, 'summary' | 'completedAt' | 'observer'>
+  entries?: NotificationEntry[]
+}
+
+const labels = { reachable: '可访问', restricted: '访问受限', unavailable: '本次不可访问' }
+const singleLine = (value: unknown) => String(value).replace(/[\r\n]+/g, ' ')
+
+export function createNotification(report: CheckReport, previous: CheckReport | undefined, mode: string, reportUrl: string, runUrl: string): LinkNotification | undefined {
   if (!['changes', 'weekly'].includes(mode))
     throw new Error('Notification mode must be off, changes, or weekly.')
 
@@ -12,7 +30,7 @@ export function createNotification(report, previous, mode, reportUrl, runUrl) {
     let reason
     if (item.status === 'unavailable' && old?.status !== 'unavailable')
       reason = '新增不可访问'
-    else if (item.status === 'unavailable' && item.consecutiveFailures === 2 && old?.consecutiveFailures < 2)
+    else if (item.status === 'unavailable' && item.consecutiveFailures === 2 && old && old.consecutiveFailures < 2)
       reason = '连续两次检测失败'
     else if (item.status === 'restricted' && old?.status !== 'restricted')
       reason = '新增访问限制'
@@ -46,14 +64,24 @@ export function createNotification(report, previous, mode, reportUrl, runUrl) {
   return {
     subject: mode === 'weekly' ? '[friends] 每周友链检测摘要' : `[friends] ${changes.length} 项友链状态变化`,
     text: lines.join('\n'),
-    summary: report.summary,
-    completedAt: report.completedAt,
-    observer: report.observer,
+    report,
     entries,
   }
 }
 
-export function smtpOptions(env) {
+export async function loadNotification(mode: string, env: NodeJS.ProcessEnv = process.env) {
+  const report = await readReport('reports/friends/report.json')
+  if (!report)
+    throw new Error('Missing completed report; run check:links first.')
+  const previous = await readReport('public/status/report.json')
+  const server = env.GITHUB_SERVER_URL || 'https://github.com'
+  const repository = env.GITHUB_REPOSITORY || 'YunYouJun/friends'
+  const reportUrl = 'https://friends.yunyoujun.cn/status/'
+  const runUrl = env.GITHUB_RUN_ID ? `${server}/${repository}/actions/runs/${env.GITHUB_RUN_ID}` : `${server}/${repository}/actions`
+  return { message: createNotification(report, previous, mode, reportUrl, runUrl), reportUrl, runUrl }
+}
+
+export function smtpOptions(env: NodeJS.ProcessEnv): SMTPTransport.Options {
   for (const key of ['SMTP_HOST', 'SMTP_USER', 'SMTP_PASSWORD', 'MAIL_FROM', 'MAIL_TO']) {
     if (!env[key]?.trim())
       throw new Error(`Missing ${key}; configure GitHub Secrets before enabling email.`)

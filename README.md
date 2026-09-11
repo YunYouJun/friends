@@ -77,6 +77,19 @@ pnpm friends
 
 脚本按检查对象命名：`check:links` 发起友链网络检测，`report:links` 从已有数据导出静态站点；`lint` 和 `typecheck` 分别检查代码规范和类型。
 
+维护脚本与测试统一使用 TypeScript，通过已有的 `tsx` 直接运行，无需先编译。`pnpm run typecheck` 对 `scripts` 和 `tests` 执行严格类型检查，支持直接引用 `.ts` 文件和 `meodp/check` 的类型导出。
+
+通知逻辑可以在其他 TypeScript 脚本中引用：`createNotification` 计算状态变化，`createFeishuCard` 生成卡片，`sendFeishuNotification` 执行投递。例如，在仓库根目录的脚本中预览已有报告：
+
+```ts
+import { createFeishuCard } from './scripts/feishu-notification.ts'
+import { loadNotification } from './scripts/link-notification.ts'
+
+const { message, reportUrl, runUrl } = await loadNotification('weekly')
+if (message)
+  console.log(createFeishuCard(message, { reportUrl, runUrl }))
+```
+
 ```bash
 pnpm install
 pnpm run check:links

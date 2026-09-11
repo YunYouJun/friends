@@ -1,5 +1,5 @@
 import { readReport } from 'meodp/check'
-import { waitForReport } from './link-deployment.mjs'
+import { waitForReport } from './link-deployment.ts'
 
 const report = await readReport('reports/friends/report.json')
 if (!report)
