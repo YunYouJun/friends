@@ -71,8 +71,123 @@
 pnpm friends
 ```
 
-## Todo
+## 检查友链可访问性
 
-- [ ] 友链状态检测
-  - [ ] cli
-  - [ ] status page
+使用已发布的通用 npm 包 [meodp](https://github.com/YunYouJun/meodp) 检查 `public/links.yml` 中的站点。需要 Node.js 22.19+；无需安装浏览器。
+
+脚本按检查对象命名：`check:links` 发起友链网络检测，`report:links` 从已有数据导出静态站点；`lint` 和 `typecheck` 分别检查代码规范和类型。
+
+```bash
+pnpm install
+pnpm run check:links
+
+# 调整请求超时，或让不可访问的站点导致退出码 1。
+pnpm run check:links --timeout 15000 --fail-on unavailable
+
+# 查看检测参数，不发起网络请求。
+pnpm run check:links --help
+```
+
+结果保存在 `reports/friends/report.html`、`reports/friends/report.md` 和 `reports/friends/report.json`。HTML 可直接打开，支持状态筛选、搜索、排序、分页和展开详情，也可加载其他 JSON 报告。报告包含友链名称、HTTP 状态、重定向、失败原因、上次成功时间和连续失败次数，不包含邮箱等其他友链字段。
+
+- `reachable`：HTTP 可访问，不代表内容或域名归属已验证。
+- `restricted`：401/403/429 等访问限制，需要复核。
+- `unavailable`：本次网络、证书、超时或 HTTP 错误，需要结合历史判断。
+
+只检查站点地址及重定向目标；头像、站内文章和第三方资源不参与判定。命令不会修改 `links.yml` 或 `away.yml`。默认只生成维护报告，友链不可访问不会阻止构建；输入、执行或报告写入错误仍会返回非零退出码。
+
+本机历史存放在 `.cache/friends/local.json`，以机器名标识执行环境。更换机器或网络时，可使用新的 `--history` 路径和 `--observer` 名称。连续失败次数表示跨次观测，不代表已经连续宕机多少天。
+
+GitHub Actions 提供 **Check friend links** 工作流。单独手动执行时只检测并上传报告附件；它也作为可复用工作流被每周发布流程调用。CI 从仓库中上次发布的 `public/status/report.json` 恢复历史，仅接受 `github-actions-ubuntu` 观测环境的数据；初始本机快照不会混入 CI 历史。GitHub 托管运行器的网络可能变化，结果仍需人工复核后再处理友链。
+
+导出可部署的静态报告站点（读取已有结果，不重新检测）：
+
+```bash
+pnpm run report:links
+```
+
+将 `reports/site/` 的内容部署到任意静态托管即可。`index.html` 包含离线快照；托管访问时会加载同目录的 `report.json`，以后只需替换 JSON 即可更新数据。页面也支持从本地文件或 URL 加载其他报告，跨域 URL 需要允许 CORS。页面显示的是观测时间和检测环境，不是实时监控。
+
+### 发布状态页
+
+`pnpm run build` 会将仓库中的 `public/status/report.json` 渲染为 `dist/status/`。它随现有 GitHub Pages / EdgeOne 静态构建发布，访问路径为 [friends.yunyoujun.cn/status/](https://friends.yunyoujun.cn/status/)。构建只读取已保存的数据，不发起友链检测。
+
+更新公开快照：
+
+```bash
+pnpm run check:links
+pnpm run report:links:save
+pnpm run build
+```
+
+检查报告后，将 `public/status/report.json` 的变更提交到仓库，合并后由现有部署流程发布。只保存 JSON，页面在构建时由正式版本的 meodp 生成。命令会验证数据格式并原子替换快照，缺失或无效报告不会覆盖上次结果。若手动发布本机报告，下次 CI 会重新开始累计历史；希望保留 CI 历史时请使用 CI 生成的快照。
+
+也可以手动执行 **Check friend links** 工作流，下载 `friend-link-report` artifact 中的 `friends/report.json`，放到本地 `reports/friends/report.json`，再执行保存、构建和提交步骤。公开页面是最近一次已发布的观测快照，不是实时监控。
+
+### 每周自动检测与部署
+
+**YunYouJun Friends** 工作流在北京时间每周一 09:17（UTC 01:17）运行，也可在 Actions 页面手动执行。流程依次完成：
+
+1. 检测友链，生成 JSON、Markdown 和交互报告，并上传保留 30 天的附件。
+2. 通过 lint、类型检查和自动化测试后，保存快照并构建静态站点。
+3. 将快照自动提交回默认分支，再在同一次工作流中部署 GitHub Pages。EdgeOne 的 Git 集成会根据该推送触发部署；其构建命令应为 `pnpm run build`，产物目录为 `dist`，Node.js 使用 24。
+4. 轮询公开状态页，核对 JSON 与本次报告完全一致且交互页面已部署；超时或仍是旧数据会令流程报错。
+5. 如已启用飞书或邮件，在线验证成功后发送通知。通知同时包含公开状态页和运行附件链接，两个通道独立运行。
+
+检测与部署之间不依赖机器人提交再次触发 Actions，因为使用 `GITHUB_TOKEN` 的推送通常不会触发新的工作流。普通代码推送只构建和部署快照，不重新检测。定时运行与普通部署使用同一并发组，避免互相覆盖；如果默认分支在检测期间发生变更而导致快照推送冲突，流程会失败并保留上次报告，可重新运行，绝不强制推送。
+
+配置合并到默认分支后定时任务才会生效。GitHub 定时任务可能延迟；公开仓库长期无活动时也可能自动停用，可在 Actions 页面检查并重新启用。详见 [GitHub 定时工作流文档](https://docs.github.com/en/actions/reference/workflows-and-actions/events-that-trigger-workflows#schedule)与 [EdgeOne Git 部署说明](https://pages.edgeone.ai/document/create-deploys)。
+
+### 飞书机器人通知（推荐）
+
+使用飞书群中的自定义机器人 webhook，无需部署额外服务或申请应用机器人权限。可以复用现有私人通知群的机器人，也可以新建专用机器人。在仓库 **Settings → Secrets and variables → Actions** 配置：
+
+| 配置 | 类型 | 说明 |
+| --- | --- | --- |
+| `LINK_FEISHU_MODE` | Variable | 留空或 `off` 关闭；推荐 `changes`，也支持 `weekly` |
+| `FEISHU_WEBHOOK_URL` | Secret | 群自定义机器人的完整 webhook 地址 |
+| `FEISHU_WEBHOOK_SECRET` | Secret | 机器人启用签名校验时填写签名密钥 |
+| `FEISHU_KEYWORD` | Variable | 启用关键词校验时填写匹配词，例如 `Studio`；会显示在通知标题及正文中 |
+
+新机器人建议开启签名校验。复用机器人时保留其现有安全设置，并对应配置关键词或签名，避免影响已有调用方。Webhook 和签名密钥不要写入代码、文档或提交记录。
+
+飞书与邮件复用同一套状态变化规则：`changes` 只在新增异常、连续失败达到第 2 次、恢复访问时通知；`weekly` 每次完整检测发布后都发送摘要。飞书使用富文本消息，长报告会截断并保留完整报告及 Actions 附件链接。机器人返回业务错误也会使通知任务失败；发送状态不确定时不自动重试，以免重复提醒。
+
+```bash
+# 离线预览测试消息，不需要配置密钥，也不发送消息。
+pnpm run notify:links:feishu --test --dry-run
+
+# 预览现有报告。
+LINK_FEISHU_MODE=weekly pnpm run notify:links:feishu --dry-run
+
+# 显式发送一条测试消息；需通过环境变量提供机器人配置。
+pnpm run notify:links:feishu --test
+```
+
+测试消息会明确标注用途，不代表每周任务或公开状态页已经上线。自动通知仅在默认分支完成检测、部署和线上验证后发送；失败运行的 rerun 跳过通知，需要再次通知时手动发起新的工作流。
+
+### 可选邮件通知
+
+邮件默认关闭，不影响检测和报告发布。使用通用 SMTP，配置位置为仓库 **Settings → Secrets and variables → Actions**：
+
+| 配置 | 类型 | 说明 |
+| --- | --- | --- |
+| `LINK_EMAIL_MODE` | Variable | 留空或 `off` 关闭；`changes` 仅重要变化；`weekly` 每次检测都发送摘要 |
+| `SMTP_PORT` | Variable | 默认 `465`（TLS），也支持 `587`（强制 STARTTLS） |
+| `SMTP_HOST` | Secret | SMTP 服务器地址 |
+| `SMTP_USER` | Secret | SMTP 登录账号 |
+| `SMTP_PASSWORD` | Secret | SMTP 密码或邮箱授权码 |
+| `MAIL_FROM` | Secret | 发件地址，须符合邮箱服务商的授权要求 |
+| `MAIL_TO` | Secret | 接收通知的维护者邮箱；多个地址用逗号分隔 |
+
+建议先使用 `changes`：新增不可访问、新增访问限制、连续失败达到第 2 次、恢复访问时提醒；相同异常从第 3 次起不重复发送。首次 CI 检测发现的异常会作为初始报告通知。访问受限会明确标注，不作为已失效友链处理。`weekly` 则每次都发送数量摘要、当前异常与恢复情况。
+
+本地预览邮件内容（不连接 SMTP，也不需要密钥）：
+
+```bash
+pnpm run notify:links --dry-run
+# 每周摘要预览
+LINK_EMAIL_MODE=weekly pnpm run notify:links --dry-run
+```
+
+邮件只会在默认分支的检测和部署步骤成功后发送；单独运行 **Check friend links** 不发送邮件。失败任务的 rerun 跳过邮件，以减少重复通知；需要再次通知时请手动发起新的 **YunYouJun Friends** 运行。邮件发送失败会使通知任务报错，已部署的报告仍然保留。SMTP 接受投递不保证最终进入收件箱，首次启用后应核对收件结果。检测或部署本身失败时，请查看 GitHub Actions 失败通知。
