@@ -73,21 +73,30 @@ pnpm friends
 
 ## 检查友链可访问性
 
-使用已发布的通用 npm 包 [meodp](https://github.com/YunYouJun/meodp) 检查 `public/links.yml` 中的站点。需要 Node.js 22.19+；无需安装浏览器。
+使用通用 npm 包 [meodp](https://github.com/YunYouJun/meodp) 检查 `public/links.yml` 中的站点。需要 Node.js 22.19+；无需安装浏览器。
 
 脚本按检查对象命名：`check:links` 发起友链网络检测，`report:links` 从已有数据导出静态站点；`lint` 和 `typecheck` 分别检查代码规范和类型。
 
-维护脚本与测试统一使用 TypeScript，通过已有的 `tsx` 直接运行，无需先编译。`pnpm run typecheck` 对 `scripts` 和 `tests` 执行严格类型检查，支持直接引用 `.ts` 文件和 `meodp/check` 的类型导出。
+通过 `check.reporter` 配置检测输出格式：检测输出 JSON、Markdown、独立 HTML 和静态站点；`report.reporter: 'html'` 将构建限定为状态页。`report.input` 读取已保存的公开 JSON，导出时不会重新检测。可用 `--reporter json,markdown` 临时替换格式选择。
 
-通知逻辑可以在其他 TypeScript 脚本中引用：`createNotification` 计算状态变化，`createFeishuCard` 生成卡片，`sendFeishuNotification` 执行投递。例如，在仓库根目录的脚本中预览已有报告：
+所有检测、报告和通知设置集中在 [`meodp.config.ts`](./meodp.config.ts)，使用 `meodp/config` 的 `defineConfig` 获得类型提示。命令行参数优先于配置；配置内的文件路径相对配置文件解析，命令行路径相对当前目录解析。
+
+通用逻辑由 meodp 维护：历史恢复、状态变化判断、飞书卡片、应用私聊 / webhook、SMTP 和部署结果验证。friends 只保留友链数据、配置、保存公开快照的薄脚本和 GitHub Actions 编排。维护脚本和测试使用 TypeScript 与 `tsx`，`pnpm run typecheck` 同时检查配置。
+
+其他脚本也可以直接使用公开 API，无需引用 friends 的内部脚本：
 
 ```ts
-import { createFeishuCard } from './scripts/feishu-notification.ts'
-import { loadNotification } from './scripts/link-notification.ts'
+import { readReport } from 'meodp/check'
+import { createNotification } from 'meodp/notify'
+import { createFeishuCard } from 'meodp/notify/feishu'
+import config from './meodp.config'
 
-const { message, reportUrl, runUrl } = await loadNotification('weekly')
-if (message)
-  console.log(createFeishuCard(message, { reportUrl, runUrl }))
+const report = await readReport(config.notify.input)
+if (report) {
+  const message = createNotification(report, { ...config.notify, previousReport: undefined, mode: 'weekly' })
+  if (message)
+    console.log(createFeishuCard(message, config.notify))
+}
 ```
 
 ```bash
@@ -119,7 +128,7 @@ GitHub Actions 提供 **Check friend links** 工作流。单独手动执行时�
 pnpm run report:links
 ```
 
-将 `reports/site/` 的内容部署到任意静态托管即可。`index.html` 包含离线快照；托管访问时会加载同目录的 `report.json`，以后只需替换 JSON 即可更新数据。页面也支持从本地文件或 URL 加载其他报告，跨域 URL 需要允许 CORS。页面显示的是观测时间和检测环境，不是实时监控。
+`check:links` 也会自动生成这一静态目录。将 `reports/site/` 的内容部署到任意静态托管即可。`index.html` 包含离线快照；托管访问时会加载同目录的 `report.json`，以后只需替换 JSON 即可更新数据。页面也支持从本地文件或 URL 加载其他报告，跨域 URL 需要允许 CORS。页面显示的是观测时间和检测环境，不是实时监控。
 
 ### 发布状态页
 
@@ -160,7 +169,7 @@ pnpm run build
 | 配置 | 类型 | 说明 |
 | --- | --- | --- |
 | `LINK_FEISHU_MODE` | Variable | 留空或 `off` 关闭；推荐 `changes`，也支持 `weekly` |
-| `FEISHU_TRANSPORT` | Variable | 私聊使用 `app`；群自定义机器人使用 `webhook`（默认值） |
+| `FEISHU_TRANSPORT` | Variable | 私聊使用 `app`；群自定义机器人使用 `webhook`；friends 默认使用 `app` |
 | `FEISHU_APP_ID` | Secret | 已发布应用的 App ID |
 | `FEISHU_APP_SECRET` | Secret | 应用的 App Secret |
 | `FEISHU_RECEIVE_ID` | Secret | 收件人的 ID；沿用现有账号映射或通过飞书官方工具获取 |
@@ -170,7 +179,7 @@ pnpm run build
 
 如希望发送到群，可设置 `FEISHU_TRANSPORT=webhook`，并配置 `FEISHU_WEBHOOK_URL` Secret；启用签名校验时增加 `FEISHU_WEBHOOK_SECRET` Secret，启用关键词校验时增加 `FEISHU_KEYWORD` Variable。新自定义机器人建议开启签名校验，复用机器人则沿用其现有安全设置。
 
-飞书与邮件复用同一套状态变化规则：`changes` 只在新增异常、连续失败达到第 2 次、恢复访问时通知；`weekly` 每次完整检测发布后都发送摘要。卡片包含两列状态统计、北京时间、检测环境、最多六项状态摘要，以及完整报告和 Actions 入口；测试卡片使用蓝色标题并明确标注历史快照。站点名称等外部内容使用纯文本，避免被解析为提及或卡片格式。
+本地通知默认关闭，通过 `--mode changes|weekly` 显式启用；Actions 从仓库变量传入该选项。飞书与邮件复用同一套状态变化规则：`changes` 只在新增异常、连续失败达到第 2 次、恢复访问或解除访问限制时通知；`weekly` 每次完整检测发布后都发送摘要。卡片包含两列状态统计、北京时间、检测环境、最多六项状态摘要，以及完整报告和 Actions 入口；测试卡片使用蓝色标题并明确标注历史快照。站点名称等外部内容使用纯文本，避免被解析为提及或卡片格式。
 
 应用模式先获取短期 tenant token 再发送卡片，并为相同卡片与收件人生成稳定 UUID，在飞书支持的去重窗口内避免重复投递。HTTP 或业务错误会使通知任务失败；发送状态不确定时不自动重试。工作流重跑默认不再次发送通知。
 
@@ -179,7 +188,7 @@ pnpm run build
 FEISHU_TRANSPORT=app pnpm run notify:links:feishu --test --dry-run
 
 # 预览现有报告。
-FEISHU_TRANSPORT=app LINK_FEISHU_MODE=weekly pnpm run notify:links:feishu --dry-run
+pnpm run notify:links:feishu --mode weekly --dry-run
 
 # 显式发送一张测试卡片；需通过环境变量提供应用凭证和收件人配置。
 FEISHU_TRANSPORT=app pnpm run notify:links:feishu --test
@@ -199,14 +208,14 @@ FEISHU_TRANSPORT=app pnpm run notify:links:feishu --test
 | `MAIL_FROM` | Secret | 发件地址，须符合邮箱服务商的授权要求 |
 | `MAIL_TO` | Secret | 接收通知的维护者邮箱；多个地址用逗号分隔 |
 
-建议先使用 `changes`：新增不可访问、新增访问限制、连续失败达到第 2 次、恢复访问时提醒；相同异常从第 3 次起不重复发送。首次 CI 检测发现的异常会作为初始报告通知。访问受限会明确标注，不作为已失效友链处理。`weekly` 则每次都发送数量摘要、当前异常与恢复情况。
+建议先使用 `changes`：新增不可访问、新增访问限制、连续失败达到第 2 次、恢复访问或解除访问限制时提醒；相同异常从第 3 次起不重复发送。首次 CI 检测发现的异常会作为初始报告通知。访问受限会明确标注，不作为已失效友链处理。`weekly` 则每次都发送数量摘要、当前异常与恢复情况。
 
 本地预览邮件内容（不连接 SMTP，也不需要密钥）：
 
 ```bash
-pnpm run notify:links --dry-run
+pnpm run notify:links --mode changes --dry-run
 # 每周摘要预览
-LINK_EMAIL_MODE=weekly pnpm run notify:links --dry-run
+pnpm run notify:links --mode weekly --dry-run
 ```
 
 邮件只会在默认分支的检测和部署步骤成功后发送；单独运行 **Check friend links** 不发送邮件。失败任务的 rerun 跳过邮件，以减少重复通知；需要再次通知时请手动发起新的 **YunYouJun Friends** 运行。邮件发送失败会使通知任务报错，已部署的报告仍然保留。SMTP 接受投递不保证最终进入收件箱，首次启用后应核对收件结果。检测或部署本身失败时，请查看 GitHub Actions 失败通知。

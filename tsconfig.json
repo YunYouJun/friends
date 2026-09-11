@@ -15,6 +15,7 @@
   },
   "include": [
     "scripts/**/*.ts",
-    "tests/**/*.ts"
+    "tests/**/*.ts",
+    "meodp.config.ts"
   ]
 }

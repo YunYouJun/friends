@@ -20,14 +20,8 @@ jobs:
           cache: pnpm
       - run: pnpm install --frozen-lockfile
 
-      - name: Restore observations from previous runs
-        run: pnpm run report:links:restore
-
       - name: Check friends
         run: pnpm run check:links:ci
-
-      - name: Export static report site
-        run: pnpm run report:links
 
       - name: Add report to run summary
         if: always()
