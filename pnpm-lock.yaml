@@ -40,8 +40,8 @@ importers:
         specifier: ^9.32.0
         version: 9.32.0(jiti@2.7.0)
       meodp:
-        specifier: ^0.2.1
-        version: 0.2.1(nodemailer@10.0.3)(typescript@5.9.2)
+        specifier: ^0.2.2
+        version: 0.2.2(nodemailer@10.0.3)(typescript@5.9.2)
       nodemailer:
         specifier: ^10.0.3
         version: 10.0.3
@@ -1387,8 +1387,8 @@ packages:
   mdast-util-to-string@4.0.0:
     resolution: {integrity: sha512-0H44vDimn51F0YwvxSJSm0eCDOJTRlmN0R1yBh4HLj9wiV1Dn0QoXGbvFAWj2hSItVTlCmBF1hqKlIyUBVFLPg==}
 
-  meodp@0.2.1:
-    resolution: {integrity: sha512-grhIli4xzX6GRBQUhYEnOLYt1PGyVXsXsk8IRCA25aO/odQuY6blEzKlual0llBkOK2B6NoH48+L00Yx5AodMw==}
+  meodp@0.2.2:
+    resolution: {integrity: sha512-0CZ+9YBA19ilOziZKjaTzQeFGXMR3mZ0Uo1dQzCFvMxEFa7t4GE88icFERKyxYFERyg1DH8tN18Ws01NRVyhFA==}
     engines: {node: '>=22.19.0'}
     hasBin: true
     peerDependencies:
@@ -3368,7 +3368,7 @@ snapshots:
     dependencies:
       '@types/mdast': 4.0.4
 
-  meodp@0.2.1(nodemailer@10.0.3)(typescript@5.9.2):
+  meodp@0.2.2(nodemailer@10.0.3)(typescript@5.9.2):
     dependencies:
       c12: 3.3.4
       cli-progress: 3.12.0
