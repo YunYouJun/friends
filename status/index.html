@@ -1,0 +1,642 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="light">
+<meta name="referrer" content="no-referrer">
+<title>友链可访问性报告 · meodp</title>
+<style>:root {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  color: #172033;
+  background: #fff;
+  font-synthesis: none;
+  --muted: #66758a;
+  --line: #e2e8f0;
+  --blue: #2563eb;
+  --green: #14805e;
+  --amber: #98600b;
+  --red: #ca4853;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  font-size: 15px;
+  line-height: 1.5;
+}
+button,
+input,
+select {
+  font: inherit;
+  font-size: 14px;
+}
+button,
+select {
+  cursor: pointer;
+}
+button {
+  background: #fff;
+  color: var(--muted);
+  border: 1px solid #d6deea;
+  border-radius: 6px;
+  padding: 9px 16px;
+  transition: background 0.15s;
+}
+button:hover:not(:disabled) {
+  background: #f1f6ff;
+  color: var(--blue);
+}
+button:disabled {
+  opacity: 0.4;
+  cursor: default;
+}
+.primary {
+  background: var(--blue);
+  border-color: var(--blue);
+  color: #fff;
+}
+.primary:hover:not(:disabled) {
+  background: #1d4ed8;
+  color: #fff;
+}
+:focus-visible {
+  outline: 3px solid #93b6ff;
+  outline-offset: 3px;
+}
+input,
+select {
+  color: #172033;
+  background: #fff;
+  border: 1px solid #d6deea;
+  border-radius: 6px;
+  padding: 11px 14px;
+  min-width: 0;
+}
+input::placeholder {
+  color: var(--muted);
+}
+header {
+  border-bottom: 1px solid var(--line);
+}
+.header-inner {
+  max-width: 1248px;
+  padding: 14px 24px;
+  margin: auto;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.wordmark {
+  font-size: 23px;
+  font-weight: 750;
+  letter-spacing: -0.8px;
+}
+.actions {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-left: auto;
+}
+.github-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  width: 40px;
+  height: 40px;
+  border-radius: 6px;
+  color: var(--muted);
+}
+.github-link:hover {
+  background: #f1f6ff;
+  color: var(--blue);
+}
+main {
+  max-width: 1248px;
+  margin: 0 auto;
+  padding: 36px 24px 48px;
+}
+h1 {
+  font-size: 34px;
+  line-height: 1.3;
+  letter-spacing: -1px;
+  margin: 0 0 6px;
+}
+h2 {
+  font-size: 22px;
+  margin: 0;
+}
+h3 {
+  font-size: 14px;
+  margin: 0 0 16px;
+}
+h4 {
+  font-size: 13px;
+  margin: 18px 0 8px;
+  color: var(--muted);
+}
+p {
+  margin: 8px 0;
+}
+.muted,
+.note {
+  color: var(--muted);
+}
+#metadata {
+  overflow-wrap: anywhere;
+}
+.note {
+  font-size: 13px;
+}
+.metrics {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  margin: 26px 0 16px;
+}
+.metric {
+  padding: 0 32px;
+  border-left: 1px solid var(--line);
+}
+.metric:first-child {
+  padding-left: 0;
+  border: 0;
+}
+.metric > span {
+  color: var(--muted);
+  font-size: 14px;
+  display: block;
+}
+.metric > strong {
+  font-size: 38px;
+  font-weight: 650;
+  line-height: 1.25;
+  font-variant-numeric: tabular-nums;
+}
+.reachable {
+  color: var(--green);
+}
+.restricted {
+  color: var(--amber);
+}
+.unavailable {
+  color: var(--red);
+}
+.distribution {
+  height: 8px;
+  display: flex;
+  overflow: hidden;
+  border-radius: 3px;
+  background: #f1f5f9;
+}
+.distribution > span + span {
+  border-left: 1px solid white;
+}
+.distribution .reachable {
+  background: var(--green);
+}
+.distribution .restricted {
+  background: #b47713;
+}
+.distribution .unavailable {
+  background: var(--red);
+}
+#results {
+  margin-top: 28px;
+}
+#filters {
+  display: flex;
+  gap: 18px;
+  border-bottom: 1px solid var(--line);
+  overflow-x: auto;
+}
+#filters button {
+  padding: 12px 4px;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  white-space: nowrap;
+}
+#filters button.selected {
+  color: var(--blue);
+  border-bottom-color: var(--blue);
+  font-weight: 600;
+}
+.filter-count {
+  margin-left: 10px;
+  font-variant-numeric: tabular-nums;
+}
+.toolbar {
+  display: flex;
+  gap: 14px;
+  margin: 14px 0;
+}
+.search {
+  display: flex;
+  align-items: center;
+  flex: 1;
+  min-width: 0;
+  position: relative;
+}
+.search > svg {
+  position: absolute;
+  left: 14px;
+  font-size: 25px;
+  color: var(--muted);
+  line-height: 1;
+}
+.search input {
+  width: 100%;
+  padding-left: 44px;
+}
+.toolbar select {
+  width: 200px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+  table-layout: fixed;
+  font-size: 14px;
+}
+th {
+  background: #f7f9fc;
+  text-align: left;
+  font-weight: 600;
+  color: #43516a;
+  padding: 12px 16px;
+}
+th:first-child {
+  width: 37%;
+  border-radius: 5px 0 0 5px;
+}
+th:nth-child(2) {
+  width: 18%;
+}
+th:nth-child(3) {
+  width: 21%;
+}
+th:nth-child(4) {
+  width: 15%;
+}
+th:last-child {
+  width: 9%;
+  border-radius: 0 5px 5px 0;
+}
+td {
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--line);
+  vertical-align: middle;
+  font-variant-numeric: tabular-nums;
+}
+a {
+  color: inherit;
+  text-decoration: none;
+}
+a:hover {
+  color: var(--blue);
+  text-decoration: underline;
+}
+.site a {
+  font-size: 15px;
+  font-weight: 600;
+  overflow-wrap: anywhere;
+}
+.site-url {
+  display: block;
+  font-size: 13px;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  white-space: nowrap;
+}
+.status::before {
+  content: '';
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: currentColor;
+  flex-shrink: 0;
+}
+.row-note {
+  display: block;
+  color: var(--muted);
+  font-size: 12px;
+  margin-left: 18px;
+}
+.detail-toggle,
+.detail-heading {
+  text-align: right;
+}
+.detail-toggle button {
+  border: 0;
+  font-size: 26px;
+  line-height: 1;
+  padding: 5px 12px;
+  color: #172033;
+  min-width: 40px;
+  min-height: 40px;
+}
+.detail-toggle button[aria-expanded='true'] {
+  transform: rotate(90deg);
+}
+.result-row:hover,
+.result-row.expanded {
+  background: #fafcff;
+}
+.detail-row > td {
+  padding: 0;
+}
+.detail-body {
+  padding: 22px 24px;
+  background: #f0f6ff;
+  overflow-wrap: anywhere;
+}
+.facts {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px 24px;
+  margin: 0;
+}
+dt {
+  color: var(--muted);
+  font-size: 12px;
+}
+dd {
+  margin: 4px 0 0;
+  font-size: 14px;
+}
+pre {
+  font-size: 13px;
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  color: #ae3440;
+  margin: 0;
+}
+.detail-body a {
+  color: var(--blue);
+}
+.redirect-chain {
+  padding-left: 20px;
+  margin: 8px 0 0;
+}
+.redirect-chain li {
+  padding: 4px 0;
+}
+.redirect-chain strong {
+  margin-right: 12px;
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 16px;
+  color: var(--muted);
+  font-size: 13px;
+}
+.pagination > div {
+  display: flex;
+  gap: 12px;
+}
+.pagination button {
+  padding: 7px 12px;
+}
+.empty {
+  padding: 64px 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  color: var(--muted);
+  text-align: center;
+  border-block: 1px solid var(--line);
+}
+.empty span {
+  font-size: 13px;
+}
+[hidden] {
+  display: none !important;
+}
+#message {
+  padding: 12px 16px;
+  border-radius: 6px;
+  overflow-wrap: anywhere;
+  margin: 20px 0 0;
+  font-size: 14px;
+}
+.error-message {
+  background: #fff2f3;
+  color: #ad3440;
+}
+.info-message {
+  background: #eff6ff;
+  color: #255aab;
+}
+dialog {
+  width: min(560px, calc(100% - 32px));
+  border: 1px solid var(--line);
+  border-radius: 12px;
+  padding: 28px;
+  color: #172033;
+  box-shadow: 0 24px 80px #17203325;
+}
+dialog::backdrop {
+  background: #17203360;
+}
+.dialog-heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 12px;
+}
+.dialog-heading button {
+  border: 0;
+  font-size: 24px;
+  line-height: 1;
+  padding: 8px;
+}
+.file-label {
+  display: block;
+  margin: 24px 0;
+  font-weight: 600;
+}
+.file-label input {
+  margin-top: 10px;
+  display: block;
+  width: 100%;
+  font-weight: 400;
+}
+#url-form > label {
+  display: block;
+  margin-bottom: 10px;
+  font-weight: 600;
+}
+.url-controls {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+.url-controls input {
+  flex: 1;
+}
+.sr-only,
+.skip-link:not(:focus) {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+.skip-link:focus {
+  display: block;
+  padding: 8px;
+}
+noscript {
+  display: block;
+  padding: 24px;
+}
+@media (max-width: 700px) {
+  main {
+    padding: 28px 18px;
+  }
+  .header-inner {
+    padding: 12px 18px;
+  }
+  .wordmark {
+    font-size: 21px;
+  }
+  .actions {
+    gap: 8px;
+  }
+  .actions button {
+    padding: 8px 10px;
+    font-size: 13px;
+  }
+  h1 {
+    font-size: 27px;
+    letter-spacing: -0.5px;
+  }
+  #metadata {
+    font-size: 13px;
+  }
+  .metrics {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px 0;
+  }
+  .metric {
+    padding-left: 24px;
+  }
+  .metric:nth-child(3) {
+    padding-left: 0;
+    border: 0;
+  }
+  .metric > strong {
+    font-size: 32px;
+  }
+  #filters {
+    gap: 16px;
+  }
+  .toolbar {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+  .search {
+    flex-basis: 100%;
+  }
+  .toolbar select {
+    width: 100%;
+  }
+  .technical {
+    display: none;
+  }
+  th,
+  td {
+    padding: 12px 8px;
+  }
+  th:first-child {
+    width: 55%;
+  }
+  th:nth-child(2) {
+    width: 31%;
+  }
+  th:last-child {
+    width: 14%;
+  }
+  .status {
+    gap: 6px;
+    font-size: 13px;
+  }
+  .site a {
+    font-size: 14px;
+  }
+  .site-url {
+    font-size: 12px;
+  }
+  .detail-toggle button {
+    padding: 5px 8px;
+  }
+  .detail-body {
+    padding: 20px 16px;
+  }
+  .facts {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+  .pagination {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  dialog {
+    padding: 20px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  * {
+    transition: none !important;
+  }
+}
+</style>
+</head>
+<body>
+<a class="skip-link" href="#results">跳到检测结果</a>
+<header><div class="header-inner"><span class="wordmark">meodp</span><div class="actions">
+<button id="open-import" type="button">加载 JSON</button><button id="download" class="primary" type="button" disabled>下载 JSON</button>
+<a class="github-link" href="https://github.com/YunYouJun/meodp" target="_blank" rel="noopener noreferrer" aria-label="meodp GitHub 仓库（在新标签页打开）" title="meodp on GitHub">
+<svg width="22" height="22" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true" focusable="false"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82a7.65 7.65 0 0 1 2-.27c.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.013 8.013 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+</a>
+</div></div></header>
+<main>
+<section aria-labelledby="report-title"><h1 id="report-title">友链可访问性报告</h1><p id="metadata" class="muted">加载检测数据，查看站点可访问性。</p>
+<div id="metrics" class="metrics"></div><div id="distribution" class="distribution" aria-hidden="true"></div>
+<p class="note">访问受限不等于失效；结果仅代表本次检测环境。</p></section>
+<p id="message" role="status" aria-live="polite" hidden></p>
+<section id="results" aria-label="检测结果" tabindex="-1">
+<nav id="filters" aria-label="状态筛选"></nav>
+<div class="toolbar"><label class="search"><svg aria-hidden="true" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 4.5 4.5"/></svg><input id="search" type="search" aria-label="搜索站点名称或 URL" placeholder="搜索站点名称或 URL"></label>
+<select id="sort" aria-label="排序方式"><option value="original">原始顺序</option><option value="severity">优先查看异常</option><option value="duration">耗时从高到低</option><option value="failures">连续失败从多到少</option><option value="name">按站点名称</option></select></div>
+<div id="empty" class="empty">尚未加载报告<button id="empty-import" type="button">选择 JSON 文件</button><span>也可以将报告文件拖入此页面</span></div>
+<table id="table" hidden><caption class="sr-only">站点检测结果，展开详情可查看跳转和历史记录</caption><thead><tr><th>站点</th><th>状态</th><th class="technical">HTTP / 原因</th><th class="technical">耗时</th><th class="detail-heading">详情</th></tr></thead><tbody id="rows"></tbody></table>
+<footer class="pagination"><span id="result-count" role="status" aria-live="polite"></span><div><button id="previous" type="button" disabled>上一页</button><button id="next" type="button" disabled>下一页</button></div></footer>
+</section>
+</main>
+<dialog id="import-dialog" aria-labelledby="import-title"><form method="dialog" class="dialog-heading"><h2 id="import-title">加载检测报告</h2><button aria-label="关闭" type="submit">×</button></form>
+<p class="muted">选择 meodp 生成的 report.json，或加载托管的数据。</p>
+<label class="file-label" for="file">选择 JSON 文件<input id="file" type="file" accept=".json,application/json"></label>
+<form id="url-form"><label for="data-url">报告数据 URL</label><div class="url-controls"><input id="data-url" type="text" placeholder="./report.json 或 https://…" required><button class="primary" type="submit">加载</button></div></form>
+<p class="note">跨域数据需要源站允许 CORS。本地文件仅在浏览器内读取。</p></dialog>
+<noscript><p>交互报告需要启用 JavaScript。也可查看一同生成的 report.md 或 report.json。</p></noscript>
+<script id="meodp-data" type="application/json">{"report":{"schemaVersion":1,"observer":"github-actions-ubuntu","startedAt":"2026-09-14T06:15:14.675Z","completedAt":"2026-09-14T06:15:42.044Z","summary":{"total":61,"reachable":41,"restricted":6,"unavailable":14,"redirected":8,"recovered":0},"results":[{"url":"https://5ime.cn/","finalUrl":"https://5ime.cn/","status":"reachable","checkedAt":"2026-09-14T06:15:15.091Z","durationMs":415,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"I Am I","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:15.091Z"},{"url":"https://www.antmoe.com/","finalUrl":"https://www.antmoe.com/","status":"reachable","checkedAt":"2026-09-14T06:15:16.368Z","durationMs":1692,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"小康","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:16.368Z"},{"url":"https://www.oyohyee.com/","finalUrl":"https://www.ohyee.cc/","status":"reachable","checkedAt":"2026-09-14T06:15:17.996Z","durationMs":3320,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://www.oyohyee.com/","status":301,"location":"https://www.ohyee.cc/"}],"name":"OhYee","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:17.996Z"},{"url":"https://blog.sernikki.cn/","finalUrl":"https://blog.sernikki.cn/","status":"unavailable","checkedAt":"2026-09-14T06:15:17.154Z","durationMs":2478,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"NIKKI","reason":"network","detail":"TypeError: fetch failed: Error: ECONNREFUSED: connect ECONNREFUSED 201.5.232.142:443","firstFailureAt":"2026-09-11T12:42:15.628Z"},{"url":"https://blog.badapple.pro/","finalUrl":"https://blog.badapple.pro/","status":"reachable","checkedAt":"2026-09-14T06:15:17.196Z","durationMs":2520,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"东方幻梦","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:17.196Z"},{"url":"https://chanshiyu.com/","finalUrl":"https://chanshiyu.com/","status":"reachable","checkedAt":"2026-09-14T06:15:21.773Z","durationMs":6682,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"蝉时雨","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:21.773Z"},{"url":"https://owomoe.net/","finalUrl":"https://owomoe.net/","status":"restricted","checkedAt":"2026-09-14T06:15:16.439Z","durationMs":71,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"綾川星凛","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"},{"url":"https://kiseki.blog/","finalUrl":"https://kiseki.blog/","status":"reachable","checkedAt":"2026-09-14T06:15:17.222Z","durationMs":783,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"染川瞳","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:17.222Z"},{"url":"https://flag.moe/","finalUrl":"https://flag.moe/","status":"reachable","checkedAt":"2026-09-14T06:15:17.960Z","durationMs":805,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"哞菇","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:17.960Z"},{"url":"https://blog.skk.moe/","finalUrl":"https://blog.skk.moe/","status":"restricted","checkedAt":"2026-09-14T06:15:18.257Z","durationMs":1061,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Sukka","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"},{"url":"https://2890.ltd/","finalUrl":"https://2890.ltd/","status":"reachable","checkedAt":"2026-09-14T06:15:18.357Z","durationMs":1135,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Given / 秋庭 飒","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:18.357Z"},{"url":"https://www.mokeyjay.com/","finalUrl":"https://mok.moe/","status":"reachable","checkedAt":"2026-09-14T06:15:19.823Z","durationMs":1863,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://www.mokeyjay.com/","status":301,"location":"https://mok.moe/"}],"name":"mokeyjay","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:19.823Z"},{"url":"https://chralpha.com/","finalUrl":"https://ichr.me/","status":"reachable","checkedAt":"2026-09-14T06:15:18.859Z","durationMs":863,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://chralpha.com/","status":301,"location":"https://ichr.me/"}],"name":"ChrAlpha","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:18.859Z"},{"url":"https://www.angelic47.com/","finalUrl":"https://www.angelic47.com/","status":"unavailable","checkedAt":"2026-09-14T06:15:19.589Z","durationMs":1332,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Angelic47","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND www.angelic47.com","firstFailureAt":"2026-09-11T12:42:17.317Z"},{"url":"https://imiku.me/","finalUrl":"https://imiku.me/","status":"reachable","checkedAt":"2026-09-14T06:15:18.613Z","durationMs":256,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"冰凌胧月（Ice-Hazymoon）","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:18.613Z"},{"url":"https://diygod.me/","finalUrl":"https://diygod.cc/","status":"reachable","checkedAt":"2026-09-14T06:15:18.912Z","durationMs":299,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://diygod.me/","status":301,"location":"https://diygod.cc/"}],"name":"DIYgod","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:18.912Z"},{"url":"https://www.giuem.com/","finalUrl":"https://www.giuem.com/","status":"reachable","checkedAt":"2026-09-14T06:15:19.065Z","durationMs":206,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"GIUEM","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:19.065Z"},{"url":"https://guhub.cn/","finalUrl":"https://guhub.cn/","status":"unavailable","checkedAt":"2026-09-14T06:15:20.566Z","durationMs":1654,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Eltrac","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND guhub.cn","firstFailureAt":"2026-09-11T12:42:20.624Z"},{"url":"https://www.addesp.com/","finalUrl":"https://www.addesp.com/","status":"restricted","checkedAt":"2026-09-14T06:15:19.648Z","durationMs":583,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"ADD-SP","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"},{"url":"https://souta.cc/","finalUrl":"https://souta.cc/","status":"reachable","checkedAt":"2026-09-14T06:15:19.832Z","durationMs":243,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Souta","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:19.832Z"},{"url":"https://haozi.moe/","finalUrl":"https://haozi.moe/","status":"unavailable","checkedAt":"2026-09-14T06:15:21.892Z","durationMs":2244,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"月月月子喵","reason":"network","detail":"TypeError: fetch failed: Error: ECONNREFUSED: connect ECONNREFUSED 47.243.56.239:443","firstFailureAt":"2026-09-11T12:42:19.250Z"},{"url":"https://exploro.one/","finalUrl":"https://exploro.one/","status":"reachable","checkedAt":"2026-09-14T06:15:20.416Z","durationMs":593,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"夏目","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:20.416Z"},{"url":"https://idealclover.top/","finalUrl":"https://idealclover.top/","status":"reachable","checkedAt":"2026-09-14T06:15:20.213Z","durationMs":381,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"翠翠","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:20.213Z"},{"url":"https://www.bysb.net/","finalUrl":"https://www.bysb.net/","status":"reachable","checkedAt":"2026-09-14T06:15:21.327Z","durationMs":1114,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"手柄君","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:21.327Z"},{"url":"https://hydropwr.ca/","finalUrl":"https://hydropwr.ca/","status":"unavailable","checkedAt":"2026-09-14T06:15:22.012Z","durationMs":1596,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Andy Chen","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND hydropwr.ca","firstFailureAt":"2026-09-11T12:42:19.142Z"},{"url":"https://mabbs.github.io/","finalUrl":"https://mabbs.github.io/","status":"reachable","checkedAt":"2026-09-14T06:15:21.417Z","durationMs":851,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Mayx","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:21.417Z"},{"url":"https://blog.k8s.li/","finalUrl":"https://blog.k8s.li/","status":"reachable","checkedAt":"2026-09-14T06:15:21.541Z","durationMs":214,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"木子","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:21.541Z"},{"url":"https://liyin.date/","finalUrl":"https://liyin.date/","status":"reachable","checkedAt":"2026-09-14T06:15:21.545Z","durationMs":128,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"立音喵","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:21.545Z"},{"url":"https://ifmet.cn/","finalUrl":"https://ifmet.cn/","status":"unavailable","checkedAt":"2026-09-14T06:15:42.044Z","durationMs":20503,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"偕臧","reason":"timeout","detail":"TimeoutError: The operation was aborted due to timeout","firstFailureAt":"2026-09-11T12:42:39.646Z"},{"url":"https://azusemisa.top/","finalUrl":"https://azusemisa.top/","status":"reachable","checkedAt":"2026-09-14T06:15:22.351Z","durationMs":805,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"AzuSemisa","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:22.351Z"},{"url":"https://bkryofu.cn/","finalUrl":"https://bkryofu.cn/","status":"reachable","checkedAt":"2026-09-14T06:15:22.950Z","durationMs":1177,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"河城凌風","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:22.950Z"},{"url":"https://sknp.top/","finalUrl":"https://sknp.top/","status":"reachable","checkedAt":"2026-09-14T06:15:22.142Z","durationMs":250,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"SKNP","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:22.142Z"},{"url":"https://jokerm.com/","finalUrl":"https://jokerm.com/","status":"reachable","checkedAt":"2026-09-14T06:15:23.107Z","durationMs":1095,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"JokerM","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:23.107Z"},{"url":"https://timegg.top/","finalUrl":"https://timegg.top/","status":"unavailable","checkedAt":"2026-09-14T06:15:22.729Z","durationMs":587,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Kurakun","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND timegg.top","firstFailureAt":"2026-09-11T12:42:21.371Z"},{"url":"https://blog.maddestroyer.xyz/","finalUrl":"https://blog.maddestroyer.xyz/","status":"reachable","checkedAt":"2026-09-14T06:15:22.587Z","durationMs":236,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Jigsaw","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:22.587Z"},{"url":"https://sanshiliuxiao.top/","finalUrl":"https://sanshiliuxiao.top/","status":"unavailable","checkedAt":"2026-09-14T06:15:23.256Z","durationMs":669,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"椎咲良田","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND sanshiliuxiao.top","firstFailureAt":"2026-09-11T12:42:21.942Z"},{"url":"https://ishya.top/","finalUrl":"https://ishya.top/","status":"unavailable","checkedAt":"2026-09-14T06:15:23.536Z","durationMs":807,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Uki","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND ishya.top","firstFailureAt":"2026-09-11T12:42:22.130Z"},{"url":"https://www.fffdann.com/","finalUrl":"https://www.fffdann.com/","status":"restricted","checkedAt":"2026-09-14T06:15:23.018Z","durationMs":68,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"manami","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"},{"url":"https://www.fghrsh.net/","finalUrl":"https://www.fghrsh.net/","status":"reachable","checkedAt":"2026-09-14T06:15:25.090Z","durationMs":2072,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"FGHRSH","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:25.090Z"},{"url":"https://cyris.moe/","finalUrl":"https://cyris.moe/","status":"reachable","checkedAt":"2026-09-14T06:15:23.364Z","durationMs":257,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Cyris","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:23.364Z"},{"url":"https://www.littlefisher.cn/","finalUrl":"https://www.littlefisher.cn/","status":"unavailable","checkedAt":"2026-09-14T06:15:25.336Z","durationMs":2080,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Littlefisher","reason":"network","detail":"TypeError: fetch failed: Error: ECONNREFUSED: connect ECONNREFUSED 38.11.152.207:443","firstFailureAt":"2026-09-11T12:42:23.586Z"},{"url":"https://davincievans.top/","finalUrl":"https://davincievans.top/","status":"unavailable","checkedAt":"2026-09-14T06:15:23.925Z","durationMs":561,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Davinci","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND davincievans.top","firstFailureAt":"2026-09-11T12:42:22.770Z"},{"url":"https://blog.besscroft.com/","finalUrl":"https://blog.besscroft.com/","status":"unavailable","checkedAt":"2026-09-14T06:15:24.128Z","durationMs":592,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Bess Croft","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND blog.besscroft.com","firstFailureAt":"2026-09-11T12:42:22.891Z"},{"url":"https://ffis.me/","finalUrl":"https://ffis.me/","status":"reachable","checkedAt":"2026-09-14T06:15:25.098Z","durationMs":1173,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"饭饭's Blog","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:25.098Z"},{"url":"https://gaein.cn/","finalUrl":"https://gaein.cn/","status":"unavailable","checkedAt":"2026-09-14T06:15:25.894Z","durationMs":1766,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"Gaein nidb","reason":"dns","detail":"TypeError: fetch failed: Error: ENOTFOUND: getaddrinfo ENOTFOUND gaein.cn","firstFailureAt":"2026-09-11T12:42:24.462Z"},{"url":"https://www.bigdreamer.cc/","finalUrl":"https://www.bigdreamer.cc/","status":"restricted","checkedAt":"2026-09-14T06:15:26.078Z","durationMs":988,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Scholar.Eric","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"},{"url":"https://leiblog.wang/","finalUrl":"https://leiblog.wang/","status":"unavailable","checkedAt":"2026-09-14T06:15:26.857Z","durationMs":1759,"attempts":2,"consecutiveFailures":2,"changed":false,"recovered":false,"redirects":[],"name":"LeiWang1999","reason":"network","detail":"TypeError: fetch failed: Error: ECONNREFUSED: connect ECONNREFUSED 154.212.206.42:443","firstFailureAt":"2026-09-11T12:42:25.743Z"},{"url":"https://blog.becomingcelia.com/","finalUrl":"https://blog.becomingcelia.com/","status":"reachable","checkedAt":"2026-09-14T06:15:27.637Z","durationMs":2301,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Celia","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:27.637Z"},{"url":"https://www.yuzhang.wang/","finalUrl":"https://yuzhang.wang/","status":"reachable","checkedAt":"2026-09-14T06:15:26.434Z","durationMs":540,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://www.yuzhang.wang/","status":301,"location":"http://yuzhang.wang/"},{"url":"http://yuzhang.wang/","status":301,"location":"https://yuzhang.wang/"}],"name":"YuZhangWang","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:26.434Z"},{"url":"https://www.miaoer.net/","finalUrl":"https://www.miaoer.net/","status":"reachable","checkedAt":"2026-09-14T06:15:28.340Z","durationMs":2262,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"喵二","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:28.340Z"},{"url":"https://www.imcao.cn/","finalUrl":"https://blog.imcao.com/","status":"reachable","checkedAt":"2026-09-14T06:15:29.405Z","durationMs":2971,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://www.imcao.cn/","status":301,"location":"https://blog.imcao.com/"}],"name":"ImCaO","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:29.405Z"},{"url":"https://nocp.space/","finalUrl":"https://nocp.space/","status":"reachable","checkedAt":"2026-09-14T06:15:28.361Z","durationMs":1505,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"NoahHrreion","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:28.361Z"},{"url":"https://blog.sxzz.moe/","finalUrl":"https://sxzz.dev/posts/","status":"reachable","checkedAt":"2026-09-14T06:15:28.134Z","durationMs":497,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://blog.sxzz.moe/","status":302,"location":"https://sxzz.dev/posts/"}],"name":"三咲智子","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:28.134Z"},{"url":"https://huangxin.dev/","finalUrl":"https://huangxin.dev/","status":"reachable","checkedAt":"2026-09-14T06:15:28.853Z","durationMs":718,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"惶心","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:28.853Z"},{"url":"https://www.yuumi.link/","finalUrl":"https://www.yuumi.link/","status":"reachable","checkedAt":"2026-09-14T06:15:29.238Z","durationMs":898,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Yuumi","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:29.238Z"},{"url":"https://rong6.cn/","finalUrl":"https://rong6.cn/","status":"reachable","checkedAt":"2026-09-14T06:15:29.982Z","durationMs":1620,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"荣6呀","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:29.982Z"},{"url":"https://lihaoyu.cn/","finalUrl":"https://www.notbigcake.net/","status":"reachable","checkedAt":"2026-09-14T06:15:31.579Z","durationMs":2726,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[{"url":"https://lihaoyu.cn/","status":301,"location":"https://notbigcake.net/"},{"url":"https://notbigcake.net/","status":301,"location":"https://www.notbigcake.net/"}],"name":"Big_Cake","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:31.579Z"},{"url":"https://kasuie.cc/","finalUrl":"https://kasuie.cc/","status":"reachable","checkedAt":"2026-09-14T06:15:32.268Z","durationMs":3030,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"kasuie","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:32.268Z"},{"url":"https://www.plsshenyun.top/","finalUrl":"https://www.plsshenyun.top/","status":"reachable","checkedAt":"2026-09-14T06:15:30.439Z","durationMs":1034,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"望夜菌","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:30.439Z"},{"url":"https://www.voidmatrix.work/","finalUrl":"https://www.voidmatrix.work/","status":"reachable","checkedAt":"2026-09-14T06:15:30.356Z","durationMs":374,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"Voidmatrix","httpStatus":200,"lastSuccessAt":"2026-09-14T06:15:30.356Z"},{"url":"https://blog.kfdzcoffee.cn/","finalUrl":"https://blog.kfdzcoffee.cn/","status":"restricted","checkedAt":"2026-09-14T06:15:30.643Z","durationMs":287,"attempts":1,"consecutiveFailures":0,"changed":false,"recovered":false,"redirects":[],"name":"咖啡豆子coffee","httpStatus":403,"reason":"http","detail":"HTTP 403: access requires review"}]},"dataUrl":"./report.json"}</script>
+<script>"use strict";(()=>{function H(e){let t=d=>{throw new TypeError(`Invalid or unsupported report: ${d}`)},n=d=>!d||typeof d!="object"||Array.isArray(d)?t("expected an object"):d,s=(d,r)=>typeof d=="string"?d:t(r),o=(d,r,p=0)=>typeof d=="number"&&Number.isSafeInteger(d)&&d>=p?d:t(r),c=(d,r)=>typeof d=="boolean"?d:t(r),i=(d,r)=>{let p=s(d,r);return Number.isFinite(Date.parse(p))?p:t(r)},u=d=>{let r=s(d,"URL");try{let p=new URL(r);if(!["https:","http:"].includes(p.protocol)||p.username||p.password)return t("URL must use HTTP(S) without credentials")}catch{return t("URL")}return r},h=n(e);if(h.schemaVersion!==1||!Array.isArray(h.results))return t("schemaVersion or results");let L=h.results.map(d=>{let r=n(d);if(!["reachable","restricted","unavailable"].includes(String(r.status))||!Array.isArray(r.redirects))return t("status or redirects");let p={url:u(r.url),finalUrl:u(r.finalUrl),status:r.status,checkedAt:i(r.checkedAt,"checkedAt"),durationMs:typeof r.durationMs=="number"&&Number.isFinite(r.durationMs)&&r.durationMs>=0?r.durationMs:t("durationMs"),attempts:o(r.attempts,"attempts",1),consecutiveFailures:o(r.consecutiveFailures,"consecutiveFailures"),changed:c(r.changed,"changed"),recovered:c(r.recovered,"recovered"),redirects:r.redirects.map(z=>{let A=n(z);return{url:u(A.url),status:o(A.status,"redirect status",100),location:s(A.location,"redirect location")}})};if(r.name!==void 0&&(p.name=s(r.name,"name")),r.httpStatus!==void 0&&(p.httpStatus=o(r.httpStatus,"httpStatus",100)),r.reason!==void 0){if(!["http","dns","tls","timeout","network","redirect"].includes(String(r.reason)))return t("reason");p.reason=r.reason}return r.detail!==void 0&&(p.detail=s(r.detail,"detail")),r.firstFailureAt!==void 0&&(p.firstFailureAt=i(r.firstFailureAt,"firstFailureAt")),r.lastSuccessAt!==void 0&&(p.lastSuccessAt=i(r.lastSuccessAt,"lastSuccessAt")),p}),m={total:L.length,reachable:0,restricted:0,unavailable:0,redirected:0,recovered:0};for(let d of L)m[d.status]++,m.redirected+=+(d.redirects.length>0),m.recovered+=Number(d.recovered);let P=n(h.summary);for(let[d,r]of Object.entries(m))if(P[d]!==r)return t(`summary.${d} does not match results`);return{schemaVersion:1,observer:s(h.observer,"observer"),startedAt:i(h.startedAt,"startedAt"),completedAt:i(h.completedAt,"completedAt"),summary:m,results:L}}var T={reachable:"\u53EF\u8BBF\u95EE",restricted:"\u8BBF\u95EE\u53D7\u9650",unavailable:"\u6682\u4E0D\u53EF\u8FBE",redirected:"\u6709\u8DF3\u8F6C",recovered:"\u5DF2\u6062\u590D",all:"\u5168\u90E8"},O={http:"HTTP",dns:"DNS",tls:"TLS",timeout:"\u8D85\u65F6",network:"\u7F51\u7EDC\u9519\u8BEF",redirect:"\u8DF3\u8F6C\u5F02\u5E38"},k=20,N=10*1024*1024,l=e=>document.getElementById(e),$=l("import-dialog"),R=l("search"),w=l("sort"),V=l("rows"),x=l("data-url"),S=l("file"),f,v="all",g=0,y=0;function a(e,t,n){let s=document.createElement(e);return t!==void 0&&(s.textContent=t),n&&(s.className=n),s}function E(e){return e?new Date(e).toLocaleString("zh-CN",{hour12:!1}):"\u2014"}function B(e){return e<1e3?`${Math.round(e)} ms`:`${(e/1e3).toFixed(1)} s`}function M(e="",t=!1){let n=l("message");n.textContent=e,n.hidden=!e,n.className=t?"error-message":"info-message"}function I(e,t=e){let n=a("a",t);return n.href=e,n.target="_blank",n.rel="noopener noreferrer",n}function j(){let e=f?.summary,t=l("metrics");t.replaceChildren();for(let s of["all","reachable","restricted","unavailable"]){let o=a("div",void 0,`metric ${s}`);o.append(a("span",s==="all"?"\u5168\u90E8\u7AD9\u70B9":T[s]),a("strong",String(e?e[s==="all"?"total":s]:"\u2014"))),t.append(o)}let n=l("distribution");if(n.replaceChildren(),e?.total)for(let s of["reachable","restricted","unavailable"]){let o=a("span",void 0,s);o.style.width=`${e[s]/e.total*100}%`,n.append(o)}l("metadata").textContent=f?`${E(f.completedAt)} \xB7 ${f.observer}`:"\u52A0\u8F7D\u68C0\u6D4B\u6570\u636E\uFF0C\u67E5\u770B\u7AD9\u70B9\u53EF\u8BBF\u95EE\u6027\u3002",l("download").disabled=!f}function U(){let e=l("filters");e.replaceChildren();let t=["all","unavailable","restricted","reachable","redirected"];f?.summary.recovered&&t.push("recovered");for(let n of t){let s=f?.summary[n==="all"?"total":n]??0,o=a("button",void 0,v===n?"selected":"");o.type="button",o.dataset.filter=n,o.setAttribute("aria-pressed",String(v===n)),o.append(a("span",T[n]),a("span",String(s),"filter-count")),o.addEventListener("click",()=>{v=n,g=0,U(),b(),l("filters").querySelector(`[data-filter="${n}"]`)?.focus()}),e.append(o)}}function q(e){let t=a("div",void 0,"detail-body");t.append(a("h3","\u68C0\u6D4B\u8BE6\u60C5"));let n=a("dl",void 0,"facts"),s=[["\u8FDE\u7EED\u5931\u8D25",`${e.consecutiveFailures} \u6B21`],["\u8BF7\u6C42\u5C1D\u8BD5",`${e.attempts} \u6B21`],["\u6700\u540E\u6210\u529F",E(e.lastSuccessAt)],["\u9996\u6B21\u8FDE\u7EED\u5931\u8D25",E(e.firstFailureAt)],["\u68C0\u6D4B\u65F6\u95F4",E(e.checkedAt)],["\u8017\u65F6",B(e.durationMs)],["HTTP / \u539F\u56E0",String(e.httpStatus??(e.reason?O[e.reason]:"\u2014"))],["\u72B6\u6001\u53D8\u5316",e.recovered?"\u672C\u6B21\u6062\u590D\u8BBF\u95EE":e.changed?"\u72B6\u6001\u6216\u6700\u7EC8 URL \u5DF2\u53D8\u5316":"\u65E0\u53D8\u5316"]];for(let[o,c]of s){let i=a("div");i.append(a("dt",o),a("dd",c)),n.append(i)}if(t.append(n),e.detail&&t.append(a("h4","\u9519\u8BEF\u4FE1\u606F"),a("pre",e.detail)),t.append(a("h4","\u6700\u7EC8 URL"),I(e.finalUrl)),e.redirects.length){t.append(a("h4","\u8DF3\u8F6C\u94FE"));let o=a("ol",void 0,"redirect-chain");for(let c of e.redirects){let i=a("li");i.append(a("strong",String(c.status)),a("span",`${c.url} \u2192 ${c.location}`)),o.append(i)}t.append(o)}return t}function K(e,t){let n=a("tr",void 0,"result-row"),s=a("td",void 0,"site");s.append(I(e.url,e.name||new URL(e.url).hostname),a("span",e.url,"site-url"));let o=a("td");o.append(a("span",T[e.status],`status ${e.status}`)),e.redirects.length&&o.append(a("span",`${e.redirects.length} \u6B21\u8DF3\u8F6C`,"row-note")),e.recovered&&o.append(a("span","\u672C\u6B21\u6062\u590D","row-note"));let c=a("td",void 0,"detail-toggle"),i=a("button","\u203A");i.type="button",i.setAttribute("aria-label",`\u67E5\u770B ${e.name||e.url} \u7684\u68C0\u6D4B\u8BE6\u60C5`),i.setAttribute("aria-expanded","false"),i.setAttribute("aria-controls",`detail-${t}`);let u=a("tr",void 0,"detail-row");u.hidden=!0,u.id=`detail-${t}`;let h=a("td");return h.colSpan=5,u.append(h),i.addEventListener("click",()=>{u.hidden=!u.hidden,i.setAttribute("aria-expanded",String(!u.hidden)),n.classList.toggle("expanded",!u.hidden),!u.hidden&&!h.childNodes.length&&h.append(q(e))}),c.append(i),n.append(s,o,a("td",String(e.httpStatus??(e.reason?O[e.reason]:"\u2014")),"technical"),a("td",B(e.durationMs),"technical"),c),[n,u]}function b(){let e=R.value.trim().toLocaleLowerCase(),t=(f?.results??[]).filter(c=>(v==="all"||(v==="redirected"?c.redirects.length>0:v==="recovered"?c.recovered:c.status===v))&&`${c.name??""} ${c.url} ${c.finalUrl}`.toLocaleLowerCase().includes(e)),n={unavailable:0,restricted:1,reachable:2};w.value==="severity"&&t.sort((c,i)=>n[c.status]-n[i.status]),w.value==="duration"&&t.sort((c,i)=>i.durationMs-c.durationMs),w.value==="failures"&&t.sort((c,i)=>i.consecutiveFailures-c.consecutiveFailures),w.value==="name"&&t.sort((c,i)=>(c.name||c.url).localeCompare(i.name||i.url,"zh-CN")),g=Math.max(0,Math.min(g,Math.ceil(t.length/k)-1));let s=g*k;V.replaceChildren(...t.slice(s,s+k).flatMap((c,i)=>K(c,s+i))),l("table").hidden=!t.length;let o=l("empty");o.hidden=t.length>0,f&&o.replaceChildren(a("strong",f.results.length?"\u6CA1\u6709\u5339\u914D\u7684\u7AD9\u70B9":"\u8FD9\u4EFD\u62A5\u544A\u4E2D\u6CA1\u6709\u7AD9\u70B9"),a("span",f.results.length?"\u8BD5\u8BD5\u5176\u4ED6\u5173\u952E\u8BCD\u6216\u72B6\u6001\u7B5B\u9009\u3002":"\u52A0\u8F7D\u5176\u4ED6\u62A5\u544A\u4EE5\u67E5\u770B\u68C0\u6D4B\u7ED3\u679C\u3002")),l("result-count").textContent=`\u663E\u793A ${t.length?s+1:0}\u2013${Math.min(s+k,t.length)}\uFF0C\u5171 ${t.length} \u4E2A\u7AD9\u70B9`,l("previous").disabled=g===0,l("next").disabled=s+k>=t.length}function C(e){let t=H(e);if(t.results.length>5e4)throw new Error("\u62A5\u544A\u8D85\u8FC7 50,000 \u4E2A\u7AD9\u70B9\uFF0C\u8BF7\u62C6\u5206\u540E\u52A0\u8F7D\u3002");f=t,v="all",g=0,R.value="",w.value="original",j(),U(),b()}function F(e){M(`\u52A0\u8F7D\u5931\u8D25\uFF1A${e instanceof Error?e.message:String(e)}\u3002${f?"\u5DF2\u4FDD\u7559\u5F53\u524D\u62A5\u544A\u3002":""}`,!0)}async function D(e){let t=++y;$.close();try{if(e.size>N)throw new Error("JSON \u6587\u4EF6\u4E0D\u80FD\u8D85\u8FC7 10 MiB");let n=await e.text();if(t!==y)return;C(JSON.parse(n)),M(`\u5DF2\u52A0\u8F7D ${e.name}`)}catch(n){t===y&&F(n)}S.value=""}async function J(e,t=!1){let n=++y;$.close(),(!t||!f)&&M("\u6B63\u5728\u52A0\u8F7D\u62A5\u544A\u6570\u636E\u2026");try{let s=new URL(e,window.location.href);if(!["http:","https:"].includes(s.protocol)||s.username||s.password)throw new Error("\u8BF7\u4F7F\u7528\u4E0D\u542B\u8D26\u53F7\u5BC6\u7801\u7684 HTTP(S) \u6570\u636E URL\uFF1B\u672C\u5730\u62A5\u544A\u53EF\u9009\u62E9\u6587\u4EF6\u52A0\u8F7D");let o=await fetch(s,{credentials:"omit",cache:"no-store",signal:AbortSignal.timeout(15e3),referrerPolicy:"no-referrer"});if(!o.ok)throw new Error(`HTTP ${o.status}`);if(!o.body)throw new Error("\u6570\u636E\u4E3A\u7A7A");let c=o.body.getReader(),i=[],u=0;for(;;){let{done:L,value:m}=await c.read();if(L)break;if(u+=m.byteLength,u>N)throw await c.cancel(),new Error("JSON \u6587\u4EF6\u4E0D\u80FD\u8D85\u8FC7 10 MiB");i.push(m)}let h=await new Blob(i).text();if(n!==y)return;C(JSON.parse(h)),x.value=e,M(t?"":"\u5DF2\u52A0\u8F7D\u6700\u65B0\u62A5\u544A\u6570\u636E\u3002")}catch(s){n===y&&F(s)}}l("open-import").addEventListener("click",()=>$.showModal());l("empty-import").addEventListener("click",()=>S.click());S.addEventListener("change",()=>{S.files?.[0]&&D(S.files[0])});l("url-form").addEventListener("submit",e=>{e.preventDefault(),J(x.value.trim())});R.addEventListener("input",()=>{g=0,b()});w.addEventListener("change",()=>{g=0,b()});l("previous").addEventListener("click",()=>{g--,b()});l("next").addEventListener("click",()=>{g++,b()});l("download").addEventListener("click",()=>{if(!f)return;let e=URL.createObjectURL(new Blob([JSON.stringify(f,null,2)],{type:"application/json"})),t=a("a");t.href=e,t.download="report.json",t.click(),setTimeout(()=>URL.revokeObjectURL(e),1e3)});document.addEventListener("dragover",e=>{e.preventDefault()});document.addEventListener("drop",e=>{e.preventDefault();let t=e.dataTransfer?.files[0];t&&D(t)});j();U();b();try{let e=JSON.parse(l("meodp-data").textContent||"{}");e.report&&C(e.report),typeof e.dataUrl=="string"&&(x.value=e.dataUrl,window.location.protocol!=="file:"&&J(e.dataUrl,!0))}catch(e){F(e)}})();
+</script>
+</body></html>
