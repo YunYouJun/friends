@@ -19,13 +19,6 @@
   desc: 🤪乱七八糟啥都写，善用搜索
   email: oyohyee@oyohyee.com
   color: "#4186C2"
-- url: https://blog.sernikki.cn/
-  avatar: https://fastly.jsdelivr.net/gh/sernikki/MyMp3/img/amiya.jpg
-  name: NIKKI
-  blog: 蕾咪の小窝
-  desc: 有瑕人无玉
-  email: badremilia@foxmail.com
-  color: "#00F5FF"
 - url: https://blog.badapple.pro
   avatar: https://fastly.jsdelivr.net/gh/OrientalFantasy/file/logo/yuanjiao.png
   name: 东方幻梦
@@ -87,12 +80,6 @@
   desc: 愿明天又是更好的一天
   email: hi-blog@chralpha.com
   color: "#FFB90F"
-- url: https://www.angelic47.com/
-  avatar: https://upyun.yunyoujun.cn/images/angelic47-avatar.jpg
-  name: Angelic47
-  blog: Angelic47's Home
-  desc: 弱小，无助，又可怜！～
-  color: "#4fbff9"
 - url: https://imiku.me
   avatar: https://imiku.me/avatar.jpg
   name: 冰凌胧月（Ice-Hazymoon）
@@ -114,13 +101,6 @@
   desc: 菜鸡 GIUEM 的日常
   color: "#0366d6"
   email: giuemcom@gmail.com
-- url: https://guhub.cn
-  avatar: https://fastly.jsdelivr.net/gh/BigCoke233/image-hosting/avatars/avatar.jpg
-  name: Eltrac
-  blog: Eltrac's Track
-  desc: 暗夜行路，终遇奇迹。
-  email: hi@guhub.cn
-  color: "#6688DD"
 - url: https://www.addesp.com/
   avatar: https://www.addesp.com/avatar
   name: ADD-SP
@@ -135,13 +115,6 @@
   desc: 可能是一个笨蛋
   email: im@souta.cc
   color: "#f7be6b"
-- url: https://haozi.moe/
-  avatar: https://haozi.moe/css/images/logo.png
-  name: 月月月子喵
-  blog: 月月月子喵~
-  desc: 可爱的月子酱
-  email: i@haozi.moe
-  color: "#42b983"
 - url: https://exploro.one/
   avatar: https://beyondstars.xyz/avatar.jpg
   name: 夏目
@@ -163,13 +136,6 @@
   desc: 在无聊的日常中寻找意义
   email: mail@bysb.net
   color: "#2d5cff"
-- url: https://hydropwr.ca/
-  avatar: https://upyun.yunyoujun.cn/images/hydropower-avatar.jpg
-  name: Andy Chen
-  blog: Hydropower Hub
-  desc: また，一緒に輝きたい．
-  color: "#00A9EF"
-  email: andychen2005121@gmail.com
 - url: https://mabbs.github.io/
   avatar: https://avatars0.githubusercontent.com/u/17966333
   name: Mayx
@@ -191,13 +157,6 @@
   desc: 用心探知天空的边界
   email: wmliyin@outlook.com
   color: "#025f52"
-- url: https://ifmet.cn
-  avatar: https://fastly.jsdelivr.net/gh/xmuli/xmuliPic@pic/2020/20200729194553.png
-  name: 偕臧
-  blog: 偕臧
-  desc: 与子偕臧
-  email: xmulitech@gmail.com
-  color: "#90A6BC"
 - url: https://azusemisa.top/
   avatar: https://fastly.jsdelivr.net/gh/xiao-lin52/cdn-assets/images/avatar.webp
   name: AzuSemisa
@@ -240,13 +199,6 @@
   desc: Learn everything,do nothing.
   email: j1g5aw@foxmail.com
   color: "#80070B"
-- url: https://sanshiliuxiao.top/
-  avatar: https://fastly.jsdelivr.net/gh/sanshiliuxiao/blog-static/avatar.jpg
-  name: 椎咲良田
-  blog: 椎咲良田
-  desc: 快走吧，趁风停止之前
-  email: sanshiliuxiao@foxmail.com
-  color: "#4f5b97"
 - url: https://ishya.top/
   avatar: https://ishya.top/source/imgs/avatar.jpg
   name: Uki
@@ -276,27 +228,6 @@
   desc: 带着美丽的心成长！
   email: i@cyris.moe
   color: "#ca8a8b"
-- url: https://www.littlefisher.cn/
-  avatar: https://littlefisher.oss-cn-beijing.aliyuncs.com/images/myhead.png
-  name: Littlefisher
-  blog: Littlefisher's blog
-  desc: 千里之行，始于腿长:D
-  email: 3225155810@qq.com
-  color: "#000080"
-- url: https://davincievans.top/
-  avatar: https://fastly.jsdelivr.net/gh/DavinciEvans/Imgs-bed@master/gallery/avatar.jpg
-  name: Davinci
-  blog: Davinci の 红茶馆
-  desc: You are all stardust.
-  email: zhouningsiyuan@foxmail.com
-  color: "#42b8dd"
-- url: https://blog.besscroft.com/
-  avatar: https://blog.besscroft.com/avatar.jpg
-  name: Bess Croft
-  blog: 旅行者的随想
-  desc: 书中自有颜如玉
-  email: besscroft@foxmail.com
-  color: "#00D1CE"
 - url: https://ffis.me/
   avatar: https://img.ffis.me/images/2019/12/21/1.6min.png
   name: 饭饭's Blog
@@ -304,13 +235,6 @@
   desc: 不忘初心，方得始终
   email: i@ffis.me
   color: "#03a9f4"
-- url: https://gaein.cn/
-  avatar: https://img.cdn.gaein.cn/website_used/avatars/avatar-128x.webp
-  name: Gaein nidb
-  blog: Gaein nidb 的小站
-  desc: 记录生活
-  email: mail@gaein.cn
-  color: "#519BFF"
 - url: https://www.bigdreamer.cc/
   avatar: https://scholarself.oss-cn-beijing.aliyuncs.com/daily/avatar.jpeg
   name: Scholar.Eric
@@ -318,13 +242,6 @@
   desc: 愿为代码奉献出生命的最后一刻
   email: jadeface.scholar@gmail.com
   color: "#6E6FA8"
-- url: https://leiblog.wang
-  avatar: http://leiblog.wang/static/image/2021/5/sjcZ09.jpg
-  name: LeiWang1999
-  blog: "LeiWang1999's Blog"
-  desc: 卷卷卷卷。
-  email: 2230647190@qq.com
-  color: "#9400D3"
 - url: https://blog.becomingcelia.com
   avatar: https://fastly.jsdelivr.net/gh/liangchuxin/blog-files/img/20210306130253.jpg
   name: Celia

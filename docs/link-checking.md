@@ -48,6 +48,14 @@ pnpm run report:links
 
 完整配置规则和公开 API 见 meodp 的[报告格式](https://yunyoujun.github.io/meodp/zh/guide/reports#reporters)与[项目配置文档](https://yunyoujun.github.io/meodp/zh/guide/configuration)。friends 只维护友链数据、配置、快照读写脚本和 Actions 编排，通用检测、报告与通知逻辑由 meodp 维护。
 
+## 神隐列表与受限站点复核
+
+长时间无法访问的站点，需结合多次检测记录并人工复核，再从 `public/links.yml` 移入[神隐列表](../public/away.yml)，保留完整的原始友链信息。检测命令不会自动移动友链，访问受限或单次失败也不会直接触发移动。
+
+HTTP 403 只表示当前请求被拒绝，原因可能是反爬规则、来源 IP、地区限制或站点权限设置。复核时使用正常浏览器打开原网址，允许页面执行 JavaScript、设置 Cookie 并完成站点验证；仅修改 User-Agent 不能代替浏览器验证。浏览器可以访问时，保留友链，并将自动检测结果理解为该检测环境下的访问限制。
+
+复核还应检查页面内容：HTTP 200 可能对应备案拦截页、域名停放页或与原博客无关的网站。出现此类情况时，应单独记录内容异常，不能仅凭状态码认定原博客已恢复。
+
 ## 历史与检测环境
 
 本机历史存放在 `.cache/friends/local.json`，以机器名标识执行环境。更换机器或网络时，可使用新的 `--history` 路径和 `--observer` 名称。连续失败次数表示跨次观测，不代表已经连续宕机多少天。
