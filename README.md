@@ -74,6 +74,8 @@ pnpm install
 pnpm run add
 ```
 
+类型检查使用 TypeScript 7 原生编译器，ESLint 等工具使用微软官方 TypeScript 6 兼容包。两者通过 npm 别名安装：`pnpm exec tsc --version` 应显示 7.x，`pnpm exec tsc6 --version` 可检查兼容编译器。
+
 ## 友链状态
 
 使用 [meodp](https://github.com/YunYouJun/meodp) 每周检查友链可访问性，结果见[交互状态报告](https://friends.yunyoujun.cn/status/)。检测结果供维护时参考，访问受限或单次失败不代表友链已失效。
