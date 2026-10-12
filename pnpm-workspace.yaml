@@ -1,4 +1,8 @@
 minimumReleaseAgeExcludePrune: true
+# Verified meodp 0.2.3 release and npm provenance; allow only this fresh version.
+minimumReleaseAgeExclude:
+  - meodp@0.2.3
+
 trustPolicy: no-downgrade
 shamefullyHoist: true
 shellEmulator: true
