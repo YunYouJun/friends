@@ -67,7 +67,7 @@
 
 ## 本地添加友链
 
-需要 Node.js 22.19+，可使用交互命令向 `public/links.yml` 添加信息：
+需要 Node.js 22.22.2+（22.x）或 24.15.0+，可使用交互命令向 `public/links.yml` 添加信息：
 
 ```bash
 pnpm install
