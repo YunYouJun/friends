@@ -1,0 +1,7 @@
+minimumReleaseAgeExcludePrune: true
+trustPolicy: no-downgrade
+shamefullyHoist: true
+shellEmulator: true
+
+allowBuilds:
+  esbuild: true

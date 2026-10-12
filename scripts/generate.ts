@@ -1,6 +1,6 @@
 import fs from 'node:fs'
 import { consola } from 'consola'
-import yaml from 'js-yaml'
+import { load } from 'js-yaml'
 import config from './config'
 
 /**
@@ -47,7 +47,7 @@ export interface Friend {
 function generateLinksJson() {
   const distFolder = 'dist'
 
-  const links = yaml.load(fs.readFileSync(config.dataFile, 'utf8')) as Friend[]
+  const links = load(fs.readFileSync(config.dataFile, 'utf8')) as Friend[]
 
   links.forEach((link) => {
     // hide email

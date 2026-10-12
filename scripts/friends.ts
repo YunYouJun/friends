@@ -5,7 +5,7 @@ import chalkPipe from 'chalk-pipe'
 import { program } from 'commander'
 import { consola } from 'consola'
 
-import yaml from 'js-yaml'
+import { dump } from 'js-yaml'
 
 import pkg from '../package.json'
 import config from './config'
@@ -35,7 +35,7 @@ program.command('add').action(async () => {
     type: 'text',
   })
 
-  const item = yaml.dump([
+  const item = dump([
     {
       url,
       avatar,
