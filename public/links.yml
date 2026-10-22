@@ -339,3 +339,9 @@
   desc: 所有奇迹的始发点
   email: contact@kfdzcoffee.cn
   color: "#7FC8F8"
+- url: https://www.520691.xyz
+  avatar: https://www.520691.xyz/assets/avatar.svg
+  name: 渡劫博客
+  blog: 渡劫博客
+  desc: Web 版 AI 编程工作台 + Cloudflare 全栈技术博客
+  color: '#3B82F6'
